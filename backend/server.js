@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { connectDB } from './db.js'
 import Authrouter from './routes/authRoute.js'
 import Projectrouter from './routes/projectRoute.js'
+import aiRouter from './routes/aiRoute.js'
 
 import cors from 'cors';
 import { errorHandler } from './middleware/errorHandler.js'
@@ -12,6 +13,7 @@ app.use(express.json())
 app.use(cors())
 app.use('/auth',Authrouter)
 app.use('/project',Projectrouter)
+app.use('/ai',aiRouter)
 app.use(errorHandler)
 
 app.listen(process.env.PORT,()=>{

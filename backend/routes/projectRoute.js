@@ -10,4 +10,5 @@ Router.get('/getmemberprjs/:orgId/:userId',authmiddleware,getmemberprjs)
 Router.patch('/deallocatemember/:userId/:projectId',authmiddleware,deallocatemember)
 Router.get('/getallprojectmembers/:projectId',getallprojectmembers)
 
+
 export default Router

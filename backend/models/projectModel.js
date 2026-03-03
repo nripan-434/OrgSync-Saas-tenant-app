@@ -21,7 +21,18 @@ import mongoose from 'mongoose'
    members: [{
   type: mongoose.Schema.Types.ObjectId,
   ref: 'users'
-}]
+}],
+aiSummary: {
+  type: String,
+  default: null
+},
+aiPlanGenerated: {
+  type: Boolean,
+  default: false
+},
+aiGeneratedAt: {
+  type: Date
+}
 
 
  },{timestamps:true})
