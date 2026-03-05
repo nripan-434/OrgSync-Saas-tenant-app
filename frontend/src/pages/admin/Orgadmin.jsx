@@ -5,6 +5,7 @@ import { getAllMembers } from '../../features/AuthSlice'
 import MembersCard from '../../components/MembersCard'
 import { getallprojects } from '../../features/ProjectSlice'
 import { motion } from 'framer-motion'
+import ProjectEfficiencyGraph from '../../components/ProjectEfficiencyGraph'
 const Orgadmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -69,6 +70,13 @@ const Orgadmin = () => {
           transition={{ duration: 0.5 }}
           className="text-lg  font-semibold mb-4">Total Projects: {count}
         </motion.h2>
+        <motion.div
+          initial={{ y: 200 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}>
+        <ProjectEfficiencyGraph />
+
+        </motion.div>
         <motion.div
           initial={{ y: 200 }}
           animate={{ y: 0 }}

@@ -1,95 +1,96 @@
-import { asyncHandler } from "../middleware/asyncHandler.js"
-import { aiTaskGenerateService } from "../services/aiOrchestrator.js"
+// // controllers/aiController.js
+// import { asyncHandler } from "../middleware/asyncHandler.js";
+// import projectModel from "../models/projectModel.js";
+// import OrganizationModel from "../models/OrganizationModel.js";
+// import axios from "axios";
 
-export const aiTaskGenerate = asyncHandler(async (req, res) => {
+// export const aiTaskGenerate = asyncHandler(async (req, res) => {
+//   const { projectId, prompt } = req.body;
 
-  const { projectId, prompt } = req.body
-
-  if (!projectId || !prompt) {
-    return res.status(400).json({ message: "Project Id and Prompt required" })
-  }
-
-  const result = await aiTaskGenerateService({
-    projectId,
-    prompt
-  })
-
-  return res.status(200).json(result)
-
-})
-
-
-// import axios from "axios"
-// import projectModel from "../models/projectModel.js"
-// import OrganizationModel from "../models/OrganizationModel.js"
-// import { asyncHandler } from "../middleware/asyncHandler.js"
-
-// export const aiTaskGenerate= asyncHandler(async ({
-//   projectId,
-//   prompt
-// }) => {
-
+//   // Validation
 //   if (!projectId || !prompt) {
-//     throw new Error("Project Id and Prompt required")
+//     return res.status(400).json({
+//       success: false,
+//       message: "Project Id and Prompt are required",
+//     });
 //   }
 
-//   const project = await projectModel
-//     .findById(projectId)
-//     .populate("organizationId")
-
+//   // Find project
+//   const project = await projectModel.findById(projectId).populate("organizationId");
 //   if (!project) {
-//     throw new Error("Project not found")
+//     return res.status(404).json({ success: false, message: "Project not found" });
 //   }
 
-//   const organization = project.organizationId
-
+//   const organization = project.organizationId;
 //   if (!organization) {
-//     throw new Error("Organization not found")
+//     return res.status(404).json({ success: false, message: "Organization not found" });
 //   }
 
+//   // Credit check
 //   if (organization.aiCreditsLimit < 10) {
-//     throw new Error("Insufficient AI Credits")
+//     return res.status(403).json({ success: false, message: "Insufficient AI credits" });
 //   }
 
+//   // Build full prompt
 //   const fullPrompt = `
 // Project Context:
-// ${project.description}
+// ${project.description || "No description"}
 
-// Admin Instruction:
+// Instruction:
 // ${prompt}
 
-// Generate structured tasks in JSON array format.
+// Generate project tasks in JSON array format.
 
-// Each task must contain:
+// Each task should contain:
 // - title
 // - description
 // - priority (low | medium | high)
 
 // Return ONLY valid JSON array.
-// Do not include explanation.
-// `
+// `;
 
-//   const response = await axios.post(
-//     `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
-//     {
-//       contents: [
-//         {
-//           parts: [{ text: fullPrompt }]
-//         }
-//       ]
+//   try {
+//     // ✅ Call Hugging Face Inference API
+//     const response = await axios.post(
+//       "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct",
+//       { inputs: fullPrompt },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${process.env.HF_TOKEN}`,
+//         },
+//       }
+//     );
+
+//     // Hugging Face returns an array of outputs
+//     const aiResponse = response.data[0]?.generated_text?.trim();
+
+//     let tasks;
+//     try {
+//       tasks = JSON.parse(aiResponse);
+//     } catch {
+//       return res.status(500).json({
+//         success: false,
+//         message: "AI response format invalid",
+//         rawResponse: aiResponse,
+//       });
 //     }
-//   )
 
-//   const aiResponse =
-//     response.data.candidates[0].content.parts[0].text
+//     // Deduct credits
+//     organization.aiCreditsLimit -= 10;
+//     await organization.save();
 
-//   const tasks = JSON.parse(aiResponse)
-
-//   organization.aiCreditsLimit -= 10
-//   await organization.save()
-
-//   return {
-//     tasks,
-//     remainingCredits: organization.aiCreditsLimit
+//     res.status(200).json({
+//       success: true,
+//       tasks,
+//       taskCount: tasks.length,
+//       remainingCredits: organization.aiCreditsLimit,
+//     });
+//   } catch (error) {
+//     console.error("Hugging Face API Error:", error.response?.data || error.message);
+//     res.status(500).json({
+//       success: false,
+//       message: "Error generating tasks",
+//       error: error.response?.data?.error || error.message,
+//     });
 //   }
-// })
+// });
