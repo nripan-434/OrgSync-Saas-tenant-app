@@ -7,6 +7,7 @@ import { getallprojectmembers } from '../../features/ProjectSlice';
 import { deallocatemember } from '../../features/ProjectSlice';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { GrGenai } from "react-icons/gr";
 
 const Eachproject = () => {
   const dispatch = useDispatch()
@@ -150,7 +151,9 @@ const Eachproject = () => {
           {showTasks && (
             <div className="p-4">
               {/* Add Task Space */}
-              <div className=" flex gap-2 mb-6">
+              <div className=" flex flex-col gap-2   mb-6">
+                <button className='bg-[#B6FF3B] rounded-xl p-3 font-bold w-40 flex justify-center gap-1  items-center'>
+                  Generate Tasks <GrGenai/></button>
                 <input
                   type="text"
                   value={newTask}

@@ -15,15 +15,13 @@ export const createAitask = asyncHandler(async (req, res) => {
     if (!project) {
         return res.status(404).json({ message: 'Project not found' })
     }
-
-    // This ensures the AI behaves like a project manager
-    const systemPrompt = `You are a Project Manager. Based on the project description, generate a list of actionable tasks. 
+    const systemPrompt = `You are a Project Manager. Based on the project description :${project.description}, generate a list of actionable tasks. 
     Return ONLY a valid JSON array of strings.
     Example: ["Setup database and should be structured", "Create login API and necessary logic", "Design UI"]`
 
-    const finalPrompt = prompt 
-        ? `${prompt}. Project Context: ${project.description} ,Return ONLY a valid JSON array of strings` 
-        : systemPrompt
+    const finalPrompt = prompt ===''
+        ? systemPrompt
+        : `${prompt}. Project Context: ${project.description} ,Return ONLY a valid JSON array of strings` 
 
         const response = await client.chatCompletion({
             model: "Qwen/Qwen2.5-7B-Instruct",
