@@ -38,6 +38,16 @@ const Eachproject = () => {
 
 
     }
+    useEffect(() => {
+  if(project?.description){
+    setprompt(`You are a Project Manager. Based on this project:
+
+${project.description}
+
+Generate a list of actionable tasks.
+Return ONLY a JSON array of strings.`)
+  }
+}, [project])
    const [isopen,setIsopen]=useState(false)
   
   useEffect(() => {

@@ -7,7 +7,7 @@ const initialState = {
 }
 export const createAitask = createAsyncThunk('post/createAitask',async({projectId,prompt})=>{
        console.log("Thunk called", projectId, prompt)
-    const res = await api.post('/ai/createAitask',projectId,prompt) 
+    const res = await api.post('/ai/createAitask',{projectId,prompt}) 
     return res.data
 
 })
