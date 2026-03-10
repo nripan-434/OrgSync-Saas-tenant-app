@@ -8,7 +8,7 @@ const MembersCard = ({ members, orgId }) => {
     const [pending,setPending]=useState(null)
 
     return (
-        <div className='m-5  grid  text-black sm:grid-cols-2 md:grid-cols-3 break-all lg:grid-cols-4 gap-3'>
+        <div className='mt-5  grid  text-black sm:grid-cols-2 md:grid-cols-3 break-all lg:grid-cols-4 gap-3'>
 
             {
                 members?.length === '0' ? <div>No members</div> :

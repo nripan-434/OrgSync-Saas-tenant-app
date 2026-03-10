@@ -10,6 +10,8 @@ import { motion } from 'framer-motion';
 import { GrGenai } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { createAitask } from '../../features/AiSlice';
+import Aitasks from '../../components/Aitasks';
+import Loading from '../../components/Loading';
 
 const Eachproject = () => {
   const dispatch = useDispatch()
@@ -17,6 +19,7 @@ const Eachproject = () => {
   const navigate = useNavigate()
   const { projects } = useSelector(state => state.prj)
   const { members, status } = useSelector(s => s.auth)
+  const { aitasks ,aistatus} = useSelector(s=>s.ai)
   const { existmembers } = useSelector(s => s.prj)
   const [memtoggle, setMemtoggle] = useState({})
   const [showTasks, setShowTasks] = useState(false);
@@ -31,13 +34,14 @@ const Eachproject = () => {
     const handleinput =(e)=>{
       setprompt(e.target.value)
     }
-    const handlesubmit = (e)=>{
+    const handlesubmit = async(e)=>{
       e.preventDefault()
-       console.log("Dispatching AI task",prompt)
-      dispatch(createAitask({projectId:project._id,prompt}))
-
+   dispatch(createAitask({projectId:project._id,prompt}))
+   
 
     }
+  const aigentasks=aitasks[project._id]
+    
     useEffect(() => {
   if(project?.description){
     setprompt(`You are a Project Manager. Based on this project:
@@ -93,13 +97,6 @@ Return ONLY a JSON array of strings.`)
   const progress = 20;
   const deadline = "2024-12-31";
 
-  const tasks = project?.tasks || [
-    { id: 1, title: "Initialize Repository", status: "Completed" },
-    { id: 2, title: "Initialize Repository", status: "Completed" },
-    { id: 3, title: "Initialize Repository", status: "Completed" },
-    { id: 4, title: "Initialize Repository", status: "Completed" },
-    { id: 5, title: "Design System Setup", status: "In Progress" }
-  ];
 
   const handleAddTask = () => {
     if (!newTask.trim()) return;
@@ -119,7 +116,6 @@ Return ONLY a JSON array of strings.`)
   return (
     <div className="min-h-screen bg-white text-gray-800 p-8 w-full">
       {/* Back Navigation */}
-      <div></div>
       <button
         onClick={() => navigate(-1)}
         className="mb-6 text-sm text-gray-500 hover:text-blue-600"
@@ -166,12 +162,12 @@ Return ONLY a JSON array of strings.`)
         </div>
 
         {/* Tasks Section with Toggle & Add Input */}
-        <section className={`${showTasks ? 'h-70' : 'h-15'} duration-300 mb-10 border rounded-xl overflow-y-auto`}>
+        <section className={`${showTasks ? 'h-90' : 'h-15'} duration-300 mb-10 border rounded-xl no-scrollbar overflow-y-auto`}>
           <button
             onClick={() => setShowTasks(!showTasks)}
             className="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 font-semibold"
           >
-            <span>Project Tasks ({tasks.length})</span>
+            <span>Project Tasks ({aigentasks?.length})</span>
             <span>{showTasks ? '−' : '+'}</span>
           </button>
 
@@ -192,13 +188,15 @@ Return ONLY a JSON array of strings.`)
                         <form onSubmit={handlesubmit} onClick={(e) => e.stopPropagation()} action="" className='text-[#B6FF3B] flex flex-col gap-2   bg-[#0C1A2B] rounded-xl p-4'>
                         <h1 className='text-xl border-b p-1'>Prompt:</h1>
 
-                          <textarea onChange={handleinput}  type="text" className='h-60 mt-4 w-100 break-all outline-0 overflow-x-auto' value={prompt} />
+                          <textarea onChange={handleinput}  type="text" className='h-60 mt-4 w-100 break-all outline-0 no-scrollbar overflow-x-auto' value={prompt} />
                           <button className='bg-[#B6FF3B]/70 hover:bg-[#B6FF3B] duration-200 rounded-md p-1 text-[#0C1A2B]' type='submit'> Submit</button>
                         </form>
                       </div>
                        :''
                      }
+                     
                </div>
+              <Aitasks aitasks={aigentasks} status={aistatus} id={project._id}/>
                 <input
                   type="text"
                   value={newTask}
@@ -215,16 +213,7 @@ Return ONLY a JSON array of strings.`)
               </div>
 
               {/* Task List Space */}
-              <div className="flex m-4 gap-3 overflow-x-auto">
-                {tasks.map(task => (
-                  <div key={task.id} className="flex justify-between items-center p-3 border rounded hover:bg-gray-50">
-                    <span className="text-sm">{task.title}</span>
-                    <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">
-                      {task.status}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              
             </div>
           )}
         </section>

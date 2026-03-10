@@ -53,49 +53,35 @@ const Orgadmin = () => {
           initial={{ y: 200 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
-          className='lg:flex  '
+          
           >
-            <div className='flex-2'>
-        <ProjectEfficiencyGraph />
+          
+        
 
-            </div>
-  <div className='flex-1'></div>
-        </motion.div>
-
-        <motion.header
-         initial={{opacity:0,y:110 }}
-          animate={{opacity:1,y:0 }}
+<div className="grid grid-cols-1 md:grid-cols-5  md:grid-rows-5 md:h-screen gap-4 flex mb-10">
+    <div className="rounded-md md:col-span-3   md:row-span-3  bg-[#B6FF3B] p-1 h-70 md:h-full "><ProjectEfficiencyGraph />1</div>
+    <div className="rounded-md md:col-span-2 md:row-span-4 md:col-start-4 bg-[#B6FF3B]">4 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea repudiandae distinctio quas itaque dolorem totam iure adipisci, earum repellat quam possimus soluta incidunt doloremque, nostrum corporis dolores magnam! Quisquam, eaque.</div>
+       <div className="rounded-md md:col-start-3 md:row-start-4 bg-[#0C1A2B] flex justify-center shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0.5,0.5,0,0.5)]  items-center"> <motion.h2
+          initial={{ y: 200 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex mt-10 rounded-xl p-10 text-white justify-between border-t-4 border-[#B6FF3B]  shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0.5,0.5,0,0.5)] border-b-4  items-center mb-2  border-bottom ">
-          <div>
+          className="text-lg m-6   font-semibold  text-[#B6FF3B] ">Total Projects: {count}
+        </motion.h2></div>
+    <div className="flex rounded-xl p-5 text-white justify-between   shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0.5,0.5,0,0.5)]   items-center  rounded-md md:col-span-2 md:col-start-1 md:row-start-4"> <div>
             <h1 className="text-3xl font-bold text-[#B6FF3B] ">Projects</h1>
             <p className="text-[#B6FF3B]">Manage organization projects</p>
-          </div>
-          <Link to="/addproject" className="bg-[#B6FF3B] text-white px-4 py-2 rounded">
+            
+          </div>  <Link to="/addproject" className="bg-[#B6FF3B] text-[#0C1A2B] px-4 py-2 rounded">
             + New Project
-          </Link>
-        </motion.header>
-
-        <motion.h2
-          initial={{ y: 200 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-lg m-6  font-semibold  text-[#B6FF3B]">Total Projects: {count}
-        </motion.h2>
-        
-        <motion.div
-          initial={{ y: 200 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-          className='p-7 rounded-xl bg-[#0C1A2B] '>
-
-          <div
-            className="grid grid-cols-1 md:grid-cols-2  p-4 pt-8 border-[#B6FF3B] rounded-xl border-t-4 lg:grid-cols-3 gap-4">
+          </Link></div>
+    <div className="rounded-md md:col-span-5 md:col-start-1 md:row-start-5 bg-[#B6FF3B] p-2 h-45  overflow-x-auto custom-scrollbar  ">
+      <div
+            className="flex gap-4 min-w-max h-full border-[#B6FF3B] rounded-xl">
             {projects && projects.length > 0 ? (
               projects.map((prj) => (
                 <motion.div
                   
-                  key={prj._id} className="  hover:scale-104  duration-300 shadow-black hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] p-4 rounded-xl backdrop-blur-xl shadow-sm bg-[#0C1A2B]">
+                  key={prj._id} className="  hover:scale-104 max-w-80 min-w-70 no-scrollbar overflow-y-auto duration-300 shadow-black hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] p-4 rounded-xl backdrop-blur-xl shadow-sm bg-[#0C1A2B]">
                   <div className="flex justify-between mb-2 text-[#B6FF3B]">
                     <span className="text-xs uppercase font-bold ">Active</span>
                   </div>
@@ -116,7 +102,38 @@ const Orgadmin = () => {
             <div />
 
           </div>
-          <div className='text-white border-l-4 p-4 border-[#B6FF3B] rounded-xl mt-10'>
+    </div>
+    
+ 
+</div>
+    
+
+    
+    
+
+            
+
+        </motion.div>
+
+        {/* <motion.header
+         initial={{opacity:0,y:110 }}
+          animate={{opacity:1,y:0 }}
+          transition={{ duration: 0.5 }}
+          className="flex mt-10 rounded-xl p-10 text-white justify-between border-t-4 border-[#B6FF3B]  shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0.5,0.5,0,0.5)] border-b-4  items-center mb-2  border-bottom ">
+         
+         
+        </motion.header> */}
+
+       
+        
+        <motion.div
+          initial={{ y: 200 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+          className=' rounded-xl bg-[#0C1A2B] mt-20 '>
+
+          
+          <div className='text-white md:border-l-4 md:border-t-0 border-t-4 p-1 pt-4 border-[#B6FF3B] rounded-xl mt-10'>
             <h1 className=' font-bold text-xl text-[#B6FF3B]'>Members:</h1>
             <MembersCard members={members} orgId={user.organizationId} />
 
