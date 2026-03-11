@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <div >
       <div className='flex justify-center items-center'  >
-      <div className={`h-23  z-80 absolute  mt-5  ${dynamicColor==='text-[#B6FF3B]'?'':'shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)]'} inset-x-5 fixed ${dynamicColor} z-50  rounded-full font-bold  top-0 ${dynamicColor==='text-[#B6FF3B]'?'bg-transparent':'bg-[#B6FF3B]/60'} backdrop-blur-sm flex justify-between items-center p-6 transition-all duration-200`}>
+      <div className={`h-23  z-80 absolute    ${dynamicColor==='text-[#B6FF3B]'?'mt-5':'shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)]  '} inset-x-5 fixed ${dynamicColor} z-50  rounded-b-xl font-bold  top-0 ${dynamicColor==='text-[#B6FF3B]'?'bg-transparent':'bg-[#B6FF3B]/60'} backdrop-blur-sm flex justify-between items-center p-6 transition-all duration-200`}>
          {
            user?.role==='user'?<div>
                       <Link to={'/home'} className='font-(--font-comic) cursor-pointer'>Home</Link> 

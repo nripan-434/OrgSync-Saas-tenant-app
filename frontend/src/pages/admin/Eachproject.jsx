@@ -37,6 +37,7 @@ const Eachproject = () => {
     const handlesubmit = async(e)=>{
       e.preventDefault()
    dispatch(createAitask({projectId:project._id,prompt}))
+   setIsopen(false)
    
 
     }

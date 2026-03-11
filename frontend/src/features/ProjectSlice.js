@@ -100,7 +100,7 @@ export const ProjectSlice = createSlice({
                 state.status = 'rejected'
                 state.projects = action.payload.prj
                 state.count = action.payload.count
-                toast.error(action.payload.message)
+                
             })
              .addCase(getmemberprjs.pending, (state) => {
                 state.status = 'pending'

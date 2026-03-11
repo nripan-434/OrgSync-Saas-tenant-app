@@ -23,7 +23,8 @@ export const createAitask = asyncHandler(async (req, res) => {
         ? systemPrompt
         : `${prompt}. Project Context: ${project.description} ,Return ONLY a valid JSON array of strings` 
 
-        const response = await client.chatCompletion({
+       try {
+         const response = await client.chatCompletion({
             model: "Qwen/Qwen2.5-7B-Instruct",
             messages: [
                 { role: "system", content: systemPrompt },
@@ -40,6 +41,10 @@ export const createAitask = asyncHandler(async (req, res) => {
             tasks = resultText; 
         }
         res.status(200).json({tasks,projectId});
+       } catch (error) {
+        console.log(error)
+        return res.status(400).json({message:"Ai Model server is down"})  
+       }
 
     
 });

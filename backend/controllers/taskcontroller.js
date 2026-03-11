@@ -1,3 +1,4 @@
+import { asyncHandler } from "../middleware/asyncHandler.js";
 import taskModel from "../models/taskModel.js"
 
 
@@ -22,3 +23,12 @@ export const createtask =async(req,res)=>{
    }
 
 }
+
+export const addaitask = asyncHandler(async(req,res)=>{
+    const {task,projectId} = req.body
+    const {organizationId} = req.user
+    if(!task ){
+        return res.status(400).json({message:''})
+    }
+
+})
