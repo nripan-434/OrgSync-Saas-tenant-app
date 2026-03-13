@@ -42,7 +42,7 @@ export const addaitask = asyncHandler(async(req,res)=>{
     if(prj){
          return res.status(400).json({message:'Task Already Added!'})
     }
-    await taskModel.create({title:task.title ,description:task.description,projectId:projectId,createdBy:_id})
+    await taskModel.create({title:task.title,priority:task.priority ,description:task.description,projectId:projectId,createdBy:_id})
     return res.status(200).json({message:'Task added'})
     
 
