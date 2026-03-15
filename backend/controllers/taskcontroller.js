@@ -50,7 +50,6 @@ export const addaitask = asyncHandler(async(req,res)=>{
 // 
 export const getalltask = asyncHandler(async(req, res) => {
     const { projectId } = req.query; 
-    const { organizationId } = req.user;
 
     if (!projectId) {
         return res.status(400).json({ message: 'Project Id is required in query params!' });

@@ -41,7 +41,7 @@ const Orgadmin = () => {
       initial={{ x:-50,y:30, opacity: 0 }}
           animate={{ x: 0,y:0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-        className='   flex w-64 bg-[#0C1A2B] flex-col pt-11 border-t-10 border-r-3 border-b-10 border-[#B6FF3B] rounded-br-[20px] rounded-tr-[30px] overflow-hidden ' >
+        className='   flex w-64 bg-[#0C1A2B] flex-col pt-11 border-t-2 shadow-[inset_0_2px_4px_0_rgb(0,0,0,2.2),_0_6px_10px_5px_rgb(0,0,0,3.9)] border-b-2 border-[#B6FF3B] rounded-br-[20px] rounded-tr-[30px] overflow-hidden ' >
         <h1 className=' pl-4 font-bold text-2xl text-[#B6FF3B]'>DASHBOARD</h1>
         <div className='pt-6 '>
           <Link to={'/members'} className='hidden  lg:flex hover:bg-[#B6FF3B] p-4  hover:text-black text-[#B6FF3B]  duration-300 font-[bold] '>Members</Link>
@@ -117,7 +117,7 @@ const Orgadmin = () => {
           className=' rounded-xl bg-[#0C1A2B] mt-20 '>
 
           
-          <div className='text-white md:border-l-4 md:border-t-0 border-t-4 p-1 pt-4 border-[#B6FF3B] rounded-xl mt-10'>
+          <div className='text-white md:border-t-4 md:border-t-0 border-t-4 p-1 pt-4 border-[#B6FF3B] rounded-xl mt-10'>
             <h1 className=' font-bold text-xl text-[#B6FF3B]'>Members:</h1>
             <MembersCard members={members} orgId={user.organizationId} />
 

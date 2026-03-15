@@ -13,45 +13,64 @@ import { createAitask } from '../../features/AiSlice';
 import Aitasks from '../../components/Aitasks';
 import Loading from '../../components/Loading';
 import { getalltask } from '../../features/TaskSlice';
-
+import Tasklist from '../../components/Tasklist';
+import { useRef } from 'react';
 const Eachproject = () => {
   const dispatch = useDispatch()
+  const current = useRef()
+  const aitaskcurrent = useRef()
+  const prjtaskcurrent = useRef()
+  const scrollToInput = () => {
+    current.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+  const scrolltoaitasks = () => {
+    aitaskcurrent.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+  const scrolltoprjtasks = () => {
+    prjtaskcurrent.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
   const { id } = useParams()
   const navigate = useNavigate()
   const { projects } = useSelector(state => state.prj)
   const { members, status } = useSelector(s => s.auth)
-  const { aitasks ,aistatus} = useSelector(s=>s.ai)
+  const { aitasks, aistatus } = useSelector(s => s.ai)
   const { existmembers } = useSelector(s => s.prj)
   const { tasks } = useSelector(s => s.task)
   const [memtoggle, setMemtoggle] = useState({})
-  const [showTasks, setShowTasks] = useState(false);
+  // const [showTasks, setShowTasks] = useState(false);
   const [newTask, setNewTask] = useState("");
   const [invitebox, setInvitebox] = useState(false)
   const projectmemebers = existmembers[id] || []
- 
+
   const project = useMemo(() => {
     return projects?.find(p => p._id === id);
   }, [projects, id]);
-   const [prompt,setprompt] = useState('')
-    const handleinput =(e)=>{
-      setprompt(e.target.value)
-    }
-    const handlesubmit = async(e)=>{
-      e.preventDefault()
-   dispatch(createAitask({projectId:project._id,prompt}))
-   setIsopen(false)
-   
+  const [prompt, setprompt] = useState('')
+  const handleinput = (e) => {
+    setprompt(e.target.value)
+  }
+  const handlesubmit = async (e) => {
+    e.preventDefault()
+    dispatch(createAitask({ projectId: project._id, prompt }))
 
-    }
-  const aigentasks=aitasks[project._id]
-   useEffect(() => {
+
+
+  }
+  const aigentasks = aitasks[project._id]
+  // useEffect(() => {
+  //   if (showTasks === true) {
+  //     scrolltoprjtasks()
+
+  //   }
+  // }, [showTasks])
+  useEffect(() => {
     if (project?._id) {
-        dispatch(getalltask(project._id));
+      dispatch(getalltask(project._id));
     }
-}, [project?._id, dispatch]); // Added dependencies
-    useEffect(() => {
-  if(project?.description){
-    setprompt(`You are a Project Manager.
+  }, [project?._id, dispatch]); 
+  useEffect(() => {
+    if (project?.description) {
+      setprompt(`You are a Project Manager.
 
 Based on the project description: ${project.description}, generate a list of actionable development tasks.
 
@@ -64,11 +83,7 @@ Each task MUST follow this JSON structure:
   "status": "todo"
 }
 
-Rules:
-- Return ONLY a valid JSON array.
-- Do NOT include explanations or text outside JSON.
-- Each task should be practical and implementable by a developer.
-- Priority should reflect the logical order of implementation.
+
 
 Example Output:
 
@@ -85,11 +100,15 @@ Example Output:
     "priority": "high",
     "status": "todo"
   }
-]`)
-  }
-}, [project])
-   const [isopen,setIsopen]=useState(false)
-  
+]  Rules:
+- Return ONLY a valid JSON array.
+- Do NOT include explanations or text outside JSON.
+- Each task should be practical and implementable by a developer.
+- Priority should reflect the logical order of implementation.`)
+    }
+  }, [project])
+  const [isopen, setIsopen] = useState(false)
+
   useEffect(() => {
     if (!id || !project?._id) return;
 
@@ -134,11 +153,6 @@ Example Output:
   const deadline = "2024-12-31";
 
 
-  const handleAddTask = () => {
-    if (!newTask.trim()) return;
-    alert(`Adding task: ${newTask}`);
-    setNewTask("");
-  };
 
   if (!project) {
     return (
@@ -196,74 +210,88 @@ Example Output:
           <h2 className="text-sm font-bold  uppercase mb-2">About Project</h2>
           <p className="leading-relaxed">{project.description || "No description provided."}</p>
         </div>
-
-        {/* Tasks Section with Toggle & Add Input */}
-        <section className={`${showTasks ? 'min-h-45 max-h-100' : 'min-h-14'}  duration-300 mb-10 border rounded-xl no-scrollbar overflow-y-auto`}>
-          <button
-            onClick={() => setShowTasks(!showTasks)}
-            className="w-full flex justify-between items-center p-4  font-semibold"
-          >
-            <span>Project Tasks ({aigentasks?.length})</span>
-            <span>{showTasks ? '−' : '+'}</span>
-          </button>
-
-          {showTasks && (
+        <button className="w-full flex gap-4 items-center pb-4  font-semibold">
+          <span>Project Tasks ({tasks?.length})</span>
+          <h1 className='cursor-pointer bg-[#B6FF3B] rounded-xl p-1 text-[#0C1A2B]' onClick={() => { scrollToInput() }}>Add Task</h1>
+        </button>
+        <section
+          ref={prjtaskcurrent}
+          className={`p-5 custom-scrollbar   duration-300 mb-10 shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)] rounded-xl  overflow-y-auto`}>
+          {/* {showTasks && ( */}
             <div className="p-4 ">
-              {/* Add Task Space */}
-              <div className=" flex flex-col gap-2 relative   mb-6">
-               <div className='flex items-center gap-2 '>
-                 <button  onClick={()=>{dispatch(createAitask({projectId:project._id,prompt}))}} className='hover:bg-[#B6FF3B] rounded-xl text-[#0C1A2B] p-3 font-bold bg-[#B6FF3B]/90 duration-200 w-40 flex justify-center gap-1  items-center'>
-                  Generate Tasks <GrGenai/> 
-                
+              <div className='flex gap-4 flex-col mb-8'>
+                <h1 className='flex justify-between'>Tasks:   </h1>
+                <Tasklist tasks={tasks} />
+              </div>
+             
+              <div className='flex flex-col mt-6 gap-3'>
 
-                    </button>
-                     <button className='flex items-center' onClick={()=>{setIsopen(!isopen)}}> <FiEdit className='text-[15px]  ' />prompt</button>
-                     {
-                      isopen?
-                      <div className='    bg-black/40 backdrop-blur-2xl  inset-0 z-999 flex justify-center items-center  ' onClick={()=>{setIsopen(false)}}>
-                        <form onSubmit={handlesubmit} onClick={(e) => e.stopPropagation()} action="" className='text-[#B6FF3B] border  flex flex-col gap-2   bg-[#0C1A2B] rounded-xl p-6'>
-                        <h1 className='text-xl border-b p-1 '>Prompt:</h1>
+                <form action="" className='flex flex-col border p-4 rounded-xl gap-4'>
+                  <h1 className='flex justify-center text-2xl font-bold'>Create a Task</h1>
+                  <div className='flex flex-col'>
+                    <label htmlFor="">Task :</label>
+                    <input ref={current} className='outline-0' type="text" placeholder='create authentication' />
+                  </div>
 
-                          <textarea onChange={handleinput}  type="text" className='h-60 mt-4 w-100 break-all outline-0 no-scrollbar overflow-x-auto' value={prompt} />
-                          <button className='bg-[#B6FF3B]/70 hover:bg-[#B6FF3B] duration-200 rounded-md p-1 text-' type='submit'> Submit</button>
+                  <div className='flex flex-col'>
+                    <label htmlFor="">Description :</label>
+                    <input className='outline-0' type="text" placeholder='add auth and jwt for authentication' />
+                  </div>
+                  <div className='flex'>
+                    <label htmlFor="">Priority :</label>
+                    <select className='custom-scrollbar bg-[#0C1A2B] text-[#B6FF3B] px-2 outline-0 rounded-xl' name="" id="">
+                      <option value="">Low</option>
+                      <option value="">Medium</option>
+                      <option value="">High</option>
+                    </select>
+                  </div>
+                  <button className='p-2 bg-[#B6FF3B] text-[#0C1A2B] rounded-xl'>Add</button>
+
+                </form>
+              </div>
+              <div className=" flex flex-col gap-2    mb-6">
+                <div className='flex items-center gap-2 '>
+
+                  {
+                    isopen ?
+                      <div className=' fixed   bg-black/40 backdrop-blur-2xl  inset-0 z-999 flex justify-center items-center  ' onClick={() => { setIsopen(false) }}>
+                        <form onSubmit={(e) => {
+                          handlesubmit(e)
+                          scrolltoaitasks()
+                          setIsopen(false)
+                        }} onClick={(e) => e.stopPropagation()} action="" className='text-[#B6FF3B] border  flex flex-col gap-2   bg-[#0C1A2B] rounded-xl p-6'>
+                          <h1 className='text-xl border-b p-1 '>Prompt:</h1>
+
+                          <textarea onChange={handleinput} type="text" className='h-60 mt-4 w-100 break-all outline-0 no-scrollbar overflow-x-auto' value={prompt} />
+                          <button className='bg-[#B6FF3B]/70 hover:bg-[#B6FF3B] duration-200 rounded-md p-1 text-' type='submit' > Submit</button>
                         </form>
                       </div>
-                       :''
-                     }
-                     
-               </div>
-              <Aitasks aitasks={aigentasks} status={aistatus} projectId={project._id}/>
-                <input
-                  type="text"
-                  value={newTask}
-                  onChange={(e) => setNewTask(e.target.value)}
-                  placeholder="Enter new task..."
-                  className="flex-1 border rounded px-3 py-2 text-sm "
-                />
-                <button
-                  onClick={handleAddTask}
-                  className="bg-[#B6FF3B] text-[#0C1A2B] px-4 py-2 rounded text-sm font-medium"
-                >
-                  Add Task
+                      : ''
+                  }
+
+                </div>
+                 <div className='flex justify-center  items-center mt-4 mb-4 gap-4'>
+                <div className=' flex gap-3 w-1/4'>
+                  <button  onClick={() => {
+                  dispatch(createAitask({ projectId: project._id, prompt }))
+                  scrolltoaitasks()
+                }
+                } className='hover:bg-[#B6FF3B] rounded-xl text-[#0C1A2B] p-3 font-bold bg-[#B6FF3B]/90 duration-200 w-full flex justify-center gap-1  items-center'>
+                  Generate Tasks <GrGenai />
                 </button>
+                <button className='flex items-center' onClick={() => { setIsopen(!isopen) }}> <FiEdit className='text-[15px]  ' />prompt</button>
+
+                </div>
               </div>
-                  <div>
-                    {
-                      tasks.length=='0'?<div>No Tasks Added Yet!</div>:
-                      <div>
-                        {
-                          tasks?.map(x=>{
-                            return <div>{x.title}</div>
-                          })
-                        }
-                      </div>
-                    }
-                  </div>
-              {/* Task List Space */}
-              
+                <div ref={aitaskcurrent}>
+                  <Aitasks aitasks={aigentasks} status={aistatus} projectId={project._id} />
+                </div>
+
+              </div>
             </div>
-          )}
+          {/* )} */}
         </section>
+        {/* member */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-sm font-bold text-[#B6FF3B] uppercase">Team Members</h2>
           <button className="text-xs  font-bold hover:underline" onClick={() => {
@@ -271,7 +299,6 @@ Example Output:
 
           }}>{invitebox ? <h1 className='font-bold text-[15px]'>Cancel</h1> : <h1 className='font-bold text-[15px]'>+ Assign Member</h1>}</button>
         </div>
-
 
         {/* members */}
         {
@@ -328,7 +355,7 @@ Example Output:
       <div className={`${projectmemebers.length === 0 ? 'bg-none' : 'shadow-[0_3px_5px_rgba(0,0,0,2.1)]'} mb-10 flex gap-3 p-9 rounded-xl overflow-x-auto custom-scrollbar`}>
         {
           projectmemebers?.map(x => {
-            return <div key={x._id} className={'z-60 relative  border-2 hover:rounded-none    rounded-[25px] duration-300 hover:shadow-[5px_3px_30px_rgba(0,0,0,2.1)] w-[260px] p-4 '}>
+            return <div key={x._id} className={`z-60 relative  border-2 hover:rounded-none    rounded-[25px] duration-300 hover:shadow-[5px_3px_30px_rgba(0,0,0,2.1)] w-[260px] p-4 `}>
               <div className='p-2 min-h-26  '>
                 <h1 className='font-bold'>Name : {x.name}</h1>
                 <h2 className='font-bold'>Email : {x.email}</h2>
@@ -336,23 +363,23 @@ Example Output:
 
               <p onClick={() => setMemtoggle(prev => ({ ...prev, [x._id]: !prev[x._id] }))} className=' ml-2 mb-3  font-bold text-blue-400 underline flex items-center gap-1 cursor-pointer '>Activein <FaArrowDown className='text-[15px]' />  </p>
               <div
-                className={`absolute border-t-2 mt-2 custom-scrollbar  left-auto right-auto flex gap-2 p-3 overflow-x-auto w-[230px] transition-all duration-300 ${memtoggle[x._id] ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                className={`absolute shadow-[0_3px_5px_rgba(0,0,0,2.1)]  mt-2 custom-scrollbar  left-0 rounded-b-xl right-auto flex gap-2 p-3 overflow-x-auto  w-full transition-all duration-400 ${memtoggle[x._id] ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
                   }`}
               >
                 {
-                  x.projects.length>0?
-                x.projects?.map(p => (
-                  <div key={p._id} className="flex-shrink-0 text-[#0C1A2B]   bg-[#B6FF3B] rounded-md p-2">
-                    {p.name}
-                  </div>
-                )): <p></p>
+                  x.projects.length > 0 ?
+                    x.projects?.map(p => (
+                      <div key={p._id} className="flex-shrink-0 text-[#0C1A2B]   bg-[#B6FF3B] rounded-md p-2">
+                        {p.name}
+                      </div>
+                    )) : <p></p>
                 }
               </div>
-           
 
-          < button onClick={() => { dispatch(deallocatemember({ userId: x._id, projectId: id })) }} className='absolute bottom-5 right-3 bg-red-600 font-bold text-white p-1 rounded-xl active:scale-95 hover:shadow-[0_0px_10px_rgba(255,0,0,2.1)] duration-200'>Deallocate</button>
 
-    </div>
+              < button onClick={() => { dispatch(deallocatemember({ userId: x._id, projectId: id })) }} className='absolute bottom-5 right-3 bg-red-600 font-bold text-white p-1 rounded-xl active:scale-95 hover:shadow-[0_0px_10px_rgba(255,0,0,2.1)] duration-200'>Deallocate</button>
+
+            </div>
           })
         }
       </div >

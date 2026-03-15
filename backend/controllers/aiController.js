@@ -52,8 +52,8 @@ Example Output:
 ]`
 
     const finalPrompt = prompt ===''
-        ? systemPrompt
-        : `${prompt}` 
+        ? `${systemPrompt}. Return ONLY a valid JSON array.`
+        : `${prompt}.Return ONLY a valid JSON array.` 
 
         const response = await client.chatCompletion({
             model: "Qwen/Qwen2.5-7B-Instruct",
@@ -70,6 +70,7 @@ Example Output:
             tasks = JSON.parse(resultText);
         } catch (e) {
             tasks = resultText; 
+            res.status(404).json({message:'Add .Return ONLY a valid JSON array in your prompt' });
         }
         res.status(200).json({tasks,projectId});
 
