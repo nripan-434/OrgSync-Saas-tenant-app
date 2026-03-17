@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { inviteMember, logout } from '../features/AuthSlice'
 import InvitationCard from './InvitationCard'
 import Menu from './Menu'
+import logo from '../assets/images/orgsync.png'
 import { motion } from 'framer-motion'
 const Navbar = () => {
   const [menu, setMenu]=useState(false)
@@ -30,15 +31,15 @@ const Navbar = () => {
       <div className={`  z-80 absolute text-[#B6FF3B]   inset-x-5 fixed  z-50  rounded-b-xl font-bold  top-0 ${!isScrolled?'mt-5 bg-transparent h-23':'bg-[#0C1A2B]/80 h-18 shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)]'} backdrop-blur-sm flex justify-between items-center p-6 transition-all duration-200`}>
          {
            user?.role==='user'?<div>
-                      <Link to={'/home'} className='font-(--font-comic) cursor-pointer'>Home</Link> 
+                      <Link to={'/home'} className='font-(--font-comic) cursor-pointer'><img className='h-13 w-38' src={logo} alt="" /></Link> 
 
 
         </div>:user?.role==='admin'?<div>
-                      <Link to={'/adminhome'} className='font-(--font-comic) cursor-pointer'>Home</Link> 
+                      <Link to={'/adminhome'} className='font-(--font-comic) cursor-pointer'><img className='h-13 w-38' src={logo} alt="" /></Link> 
 
 
         </div>:
-                      <Link to={'/'} className='font-(--font-comic) cursor-pointer'>Home</Link> 
+                      <Link to={'/'} className='font-(--font-comic) cursor-pointer'><img className='h-13 w-38' src={logo} alt="" /></Link> 
 
 
        

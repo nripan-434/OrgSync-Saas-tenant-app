@@ -12,7 +12,7 @@ const Aitasks = ({aitasks,status,projectId}) => {
             <Loading/>
             :
             <div>
-               <p className='font-bold '>Ai generated Tasks:</p>
+              {aitasks? <p className='font-bold '>Ai generated Tasks:</p>:''}
               <div className="flex mt-3 gap-3 custom-scrollbar transition-all duration-300 overflow-x-auto pb-3">
               
                 {aitasks?.map(task => (
