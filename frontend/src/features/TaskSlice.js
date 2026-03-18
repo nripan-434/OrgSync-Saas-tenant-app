@@ -39,7 +39,7 @@ export const getalltask = createAsyncThunk('get/getalltask', async ( projectId ,
 })
 // export const removetask = createAsyncThunk('get/removetask', async ( projectId , { rejectWithValue }) => {
 //     try {
-//         const res = await api.get(`/task/removetask?projectId=${projectId}`)
+//         const res = await api.delete(`/task/removetask?projectId=${projectId}`)
 //         return res.data
 
 //     } catch (error) {
