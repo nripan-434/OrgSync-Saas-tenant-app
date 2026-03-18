@@ -8,6 +8,16 @@ const initialState = {
 
 
 }
+export const addnewtask = createAsyncThunk('post/addnewtask', async ({ task, projectId }, { rejectWithValue }) => {
+    console.log(task)
+    try {
+        const res = await api.post('/task/addnewtask', { task, projectId })
+        return res.data
+
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+})
 export const addaitask = createAsyncThunk('post/addaitask', async ({ task, projectId }, { rejectWithValue }) => {
     console.log(task)
     try {
@@ -27,6 +37,15 @@ export const getalltask = createAsyncThunk('get/getalltask', async ( projectId ,
         return rejectWithValue(error);
     }
 })
+// export const removetask = createAsyncThunk('get/removetask', async ( projectId , { rejectWithValue }) => {
+//     try {
+//         const res = await api.get(`/task/removetask?projectId=${projectId}`)
+//         return res.data
+
+//     } catch (error) {
+//         return rejectWithValue(error);
+//     }
+// })
 
 const TaskSlice = createSlice({
 
@@ -60,6 +79,18 @@ const TaskSlice = createSlice({
             })
             .addCase(getalltask.rejected, (state, action) => {
                 state.taskStatus = 'rejected'
+            })
+              .addCase(addnewtask.pending, (state) => {
+                state.taskStatus = 'pending'
+            })
+            .addCase(addnewtask.fulfilled, (state, action) => {
+                state.taskStatus = 'fulfilled'
+                toast.success(action.payload.message)
+               
+            })
+            .addCase(addnewtask.rejected, (state, action) => {
+                state.taskStatus = 'rejected'
+                toast.error(action.payload.message)
             })
     }
 

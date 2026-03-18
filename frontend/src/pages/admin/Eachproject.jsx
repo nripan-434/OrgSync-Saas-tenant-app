@@ -12,7 +12,7 @@ import { FiEdit } from "react-icons/fi";
 import { createAitask } from '../../features/AiSlice';
 import Aitasks from '../../components/Aitasks';
 import Loading from '../../components/Loading';
-import { getalltask } from '../../features/TaskSlice';
+import { addnewtask, getalltask } from '../../features/TaskSlice';
 import Tasklist from '../../components/Tasklist';
 import { useRef } from 'react';
 const Eachproject = () => {
@@ -158,6 +158,7 @@ Example Output:
   }
   const handletaskAddsubmit=(e)=>{
     e.preventDefault()
+    dispatch(addnewtask({task,projectId:project._id}))
   }
 
 

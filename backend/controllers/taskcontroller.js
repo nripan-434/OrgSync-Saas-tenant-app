@@ -2,26 +2,22 @@ import { asyncHandler } from "../middleware/asyncHandler.js";
 import taskModel from "../models/taskModel.js"
 
 
-export const createtask =async(req,res)=>{
-   try {
-     const {title,description}=req.body
-    if(!title||!description){
+export const addnewtask =async(req,res)=>{
+   
+     const {task,projectId}=req.body
+    
+    if(!task.title||!task.description){
         return res.status(400).json({message:"Please fill in all required fields"})
     }
     const userId = req.user._id;
-    const titleexist = await taskModel.findOne({title:title,user:userId})
+    const titleexist = await taskModel.findOne({title:task.title,createdBy:userId})
     if(titleexist){
         return res.status(409).json({message:"task already exist"})
     }
-    const task=await taskModel.create({
-        title,description,user:userId
+    const task1=await taskModel.create({
+        title:task.title,description:task.description,priority:task.priority,createdBy:userId,projectId:projectId
     })
     return res.status(201).json({message:"task created successfully"})
-   } catch (error) {
-    // console.log(error)
-   return res.status(500).json({message:'server error'}) 
-   }
-
 }
 
 export const addaitask = asyncHandler(async(req,res)=>{
