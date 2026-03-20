@@ -27,7 +27,7 @@ const InvitationCard = ({ invitebox, setInvitebox }) => {
             {
                 invitebox ? <div
 
-                    className=' fixed   bg-black/40 backdrop-blur-2xl  inset-0 z-999 flex justify-center items-center  ' onClick={() => { setInvitebox(false) }}>
+                    className=' fixed   bg-black/40 backdrop-blur-2xl  inset-0 z-999 flex justify-center items-center gap-3 ' onClick={() => { setInvitebox(false) }}>
                     <motion.div
                         initial={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
@@ -35,11 +35,11 @@ const InvitationCard = ({ invitebox, setInvitebox }) => {
                         className=' bg-[#0C1A2B] relative h-90 w-140 rounded-xl shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_2px_10px_0_rgb(0,0,0,0.4)] flex flex-col justify-center items-center' onClick={(e) => { e.stopPropagation() }}>
                         <button onClick={() => { setInvitebox(false) }} className='bg-red-600 text-white w-20 h-10  rounded-xl absolute top-6 right-5'>close</button>
                         <h1 className='mb-4 font-bold text-2xl text-[#B6FF3B]  underline'>Invitation Box</h1>
-                        <form action="" onSubmit={handlesubmit} className='bg-white flex flex-col h-50 w-90 justify-center p-3  rounded-xl gap-4 shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_2px_10px_0_rgb(0,0,0,0.4)]'>
-                           <div className='p-3 flex flex-col gap-3'>
-                            <label className='font-bold text-[19px] text-gray-800 '>Email :</label>
-                             <input type="text" name='email' className='outline-0 ' onChange={handleinput} value={form.email} placeholder='abc@gmail.com' />
-                            <button type='submit' className='active:scale-95 duration-200 bg-[#B6FF3B]  rounded-xl p-2 font-bold text-[#0C1A2B] hover:bg-green-500'>invite</button>
+                        <form action="" onSubmit={handlesubmit} className='text-[#B6FF3B] flex flex-col h-50 w-90 justify-center p-3  rounded-xl gap-4 '>
+                           <div className='p-3 flex flex-col gap-4 '>
+                            <label className='font-bold text-[19px]  '>Email :</label>
+                             <input type="text" name='email' className='outline-1 rounded p-1 ' onChange={handleinput} value={form.email} placeholder='abc@gmail.com' />
+                            <button type='submit' className='active:scale-95 duration-200 bg-[#B6FF3B]  rounded-xl p-2 font-bold text-[#0C1A2B] '>invite</button>
                            </div>
                         </form>
 

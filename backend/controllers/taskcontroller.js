@@ -38,8 +38,8 @@ export const addaitask = asyncHandler(async(req,res)=>{
     if(prj){
          return res.status(400).json({message:'Task Already Added!'})
     }
-    await taskModel.create({title:task.title,priority:task.priority ,description:task.description,projectId:projectId,createdBy:_id})
-    return res.status(200).json({message:'Task added'})
+    const restask = await taskModel.create({title:task.title,priority:task.priority ,description:task.description,projectId:projectId,createdBy:_id})
+    return res.status(200).json({message:'Task added',restask})
     
 
 })
@@ -71,3 +71,30 @@ console.log(taskId)
   return res.status(200).json({
     message: "Task deleted successfully",taskId})
 }
+
+export const updatetask = asyncHandler(async (req, res) => {
+  const { taskId } = req.params;
+  const { task } = req.body;
+  console.log(task)
+  const userId = req.user._id;
+
+  if (!taskId) {
+    return res.status(400).json({ message: "Task Id is required" });
+  }
+
+
+
+  const existingTask = await taskModel.findOne({ _id: taskId, createdBy: userId });
+  if (!existingTask) {
+    return res.status(404).json({ message: "Task not found or unauthorized" });
+  }
+
+  existingTask.title = task.title;
+  existingTask.description = task.description;
+  existingTask.priority = task.priority || existingTask.priority;
+  existingTask.status = task.status || existingTask.status;
+
+  await existingTask.save();
+
+  return res.status(200).json({ message: "Task updated successfully", task: existingTask, });
+});

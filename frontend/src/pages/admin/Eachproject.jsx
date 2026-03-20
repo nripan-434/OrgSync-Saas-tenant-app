@@ -61,7 +61,7 @@ const Eachproject = () => {
     if (project?._id) {
       dispatch(getalltask(project._id));
     }
-  }, [project?._id, dispatch]); 
+  }, [project?._id, dispatch]);
   useEffect(() => {
     if (project?.description) {
       setprompt(`You are a Project Manager.
@@ -143,26 +143,26 @@ Example Output:
   //     </div>
   //   )
   // }
-  const [task,setTask]=useState({
-    title:'',
-    description:'',
-    priority:'medium'
+  const [task, setTask] = useState({
+    title: '',
+    description: '',
+    priority: 'medium'
   })
-  const handledata =(e)=>{
-    const {name,value}=e.target
-    setTask((prev)=>({...prev,[name]:value}))
+  const handledata = (e) => {
+    const { name, value } = e.target
+    setTask((prev) => ({ ...prev, [name]: value }))
     console.log(task)
 
 
   }
-  const handletaskAddsubmit=(e)=>{
+  const handletaskAddsubmit = (e) => {
     e.preventDefault()
-    dispatch(addnewtask({task,projectId:project._id}))
-  
+    dispatch(addnewtask({ task, projectId: project._id }))
+
     setTask({
-       title:'',
-    description:'',
-    priority:'medium'
+      title: '',
+      description: '',  
+      priority: 'medium'
     })
   }
 
@@ -219,69 +219,69 @@ Example Output:
           ref={prjtaskcurrent}
           className={`p-5 custom-scrollbar   duration-300 mb-10 shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)] rounded-xl  overflow-y-auto`}>
           {/* {showTasks && ( */}
-            <div className="p-4 ">
-              <div className='flex gap-4 flex-col mb-8'>
-                <h1 className='flex justify-between'>Tasks:   </h1>
-                <Tasklist tasks={tasks} />
-              </div>
-              <div className='flex flex-col mt-6 gap-3'>
-               {/* create a task */}
-                <form onSubmit={handletaskAddsubmit} action="" className='flex flex-col border p-4 rounded-xl gap-4'>
-                  <h1 className='flex justify-center text-2xl font-bold'>Create a Task</h1>
-                  <div className='flex flex-col'>
-                    <label htmlFor="">Task :</label>
-                    <input onChange={handledata} ref={current} name='title' value={task.title} className='outline-0' type="text" placeholder='create authentication' />
-                  </div>
-                  <div className='flex flex-col'>
-                    <label htmlFor="">Description :</label>
-                    <textarea onChange={handledata} name='description' value={task.description} className='outline-0' type="text" placeholder='add auth and jwt for authentication' />
-                  </div>
-                  <div className='flex'>
-                    <label htmlFor="">Priority :</label>
-                    <select onChange={handledata} name='priority'  className='custom-scrollbar bg-[#0C1A2B] text-[#B6FF3B] px-2 outline-0 rounded-xl'  id="">
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                    </select>
-                  </div>
-                  <button className='p-2 bg-[#B6FF3B] text-[#0C1A2B] rounded-xl'>Add</button>
-                </form>
-              </div>
-              <div className=" flex flex-col gap-2    ">
-                <div className='flex items-center gap-2 '>
-                  {
-                    isopen ?
-                      <div className=' fixed   bg-black/40 backdrop-blur-2xl  inset-0 z-999 flex justify-center items-center  ' onClick={() => { setIsopen(false) }}>
-                        <form onSubmit={(e) => {
-                          handlesubmit(e)
-                          scrolltoaitasks()
-                          setIsopen(false)
-                        }} onClick={(e) => e.stopPropagation()} action="" className='text-[#B6FF3B] border  flex flex-col gap-2   bg-[#0C1A2B] rounded-xl p-6'>
-                          <h1 className='text-xl border-b p-1 '>Prompt:</h1>
-                          <textarea onChange={handleinput} type="text" className='h-60 mt-4 w-100 break-all outline-0 no-scrollbar overflow-x-auto' value={prompt} />
-                          <button className='bg-[#B6FF3B]/70 hover:bg-[#B6FF3B] duration-200 rounded-md p-1 text-' type='submit' > Submit</button>
-                        </form>
-                      </div>
-                      : ''
-                  }
+          <div className="p-4 ">
+            <div className='flex gap-4 flex-col mb-8'>
+              <h1 className='flex justify-between'>Tasks:   </h1>
+              <Tasklist tasks={tasks} />
+            </div>
+            <div className='flex flex-col mt-6 gap-3'>
+              {/* create a task */}
+              <form onSubmit={handletaskAddsubmit} action="" className='flex flex-col border p-4 rounded-xl gap-4'>
+                <h1 className='flex justify-center text-2xl font-bold'>Create a Task</h1>
+                <div className='flex flex-col'>
+                  <label htmlFor="">Task :</label>
+                  <input onChange={handledata} ref={current} name='title' value={task.title} className='outline-0' type="text" placeholder='create authentication' />
                 </div>
-                 <div className='flex justify-center  items-center mt-4  gap-4'>
-                <div className=' flex flex-col md:flex-row gap-3 w-full md:w-2/4 xl:w-1/4   items-center '>
-                  <button  onClick={() => {
-                  dispatch(createAitask({ projectId: project._id, prompt }))
-                  scrolltoaitasks()
+                <div className='flex flex-col'>
+                  <label htmlFor="">Description :</label>
+                  <textarea onChange={handledata} name='description' value={task.description} className='outline-0' type="text" placeholder='add auth and jwt for authentication' />
+                </div>
+                <div className='flex'>
+                  <label htmlFor="">Priority :</label>
+                  <select onChange={handledata} name='priority' className='custom-scrollbar bg-[#0C1A2B] text-[#B6FF3B] px-2 outline-0 rounded-xl' id="">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <button className='p-2 bg-[#B6FF3B] text-[#0C1A2B] rounded-xl'>Add</button>
+              </form>
+            </div>
+            <div className=" flex flex-col gap-2    ">
+              <div className='flex items-center gap-2 '>
+                {
+                  isopen ?
+                    <div className=' fixed   bg-black/40 backdrop-blur-2xl  inset-0 z-999 flex justify-center items-center  ' onClick={() => { setIsopen(false) }}>
+                      <form onSubmit={(e) => {
+                        handlesubmit(e)
+                        scrolltoaitasks()
+                        setIsopen(false)
+                      }} onClick={(e) => e.stopPropagation()} action="" className='text-[#B6FF3B] border  flex flex-col gap-2   bg-[#0C1A2B] rounded-xl p-6'>
+                        <h1 className='text-xl border-b p-1 '>Prompt:</h1>
+                        <textarea onChange={handleinput} type="text" className='h-60 mt-4 w-100 break-all outline-0 no-scrollbar overflow-x-auto' value={prompt} />
+                        <button className='bg-[#B6FF3B]/70 hover:bg-[#B6FF3B] duration-200 rounded-md p-1 text-' type='submit' > Submit</button>
+                      </form>
+                    </div>
+                    : ''
                 }
-                } className='hover:bg-[#B6FF3B] rounded-xl text-[#0C1A2B] p-3 font-bold bg-[#B6FF3B]/90 duration-200 w-full flex justify-center gap-1  items-center'>
-                  Generate Tasks <GrGenai />
-                </button>
-                <button className='flex items-center' onClick={() => { setIsopen(!isopen) }}> <FiEdit className='text-[15px]  ' />prompt</button>
+              </div>
+              <div className='flex justify-center  items-center mt-4  gap-4'>
+                <div className=' flex flex-col md:flex-row gap-3 w-full md:w-2/4 xl:w-1/4   items-center '>
+                  <button onClick={() => {
+                    dispatch(createAitask({ projectId: project._id, prompt }))
+                    scrolltoaitasks()
+                  }
+                  } className='hover:bg-[#B6FF3B] rounded-xl text-[#0C1A2B] p-3 font-bold bg-[#B6FF3B]/90 duration-200 w-full flex justify-center gap-1  items-center'>
+                    Generate Tasks <GrGenai />
+                  </button>
+                  <button className='flex items-center' onClick={() => { setIsopen(!isopen) }}> <FiEdit className='text-[15px]  ' />prompt</button>
                 </div>
               </div>
-                <div ref={aitaskcurrent}>
-                  <Aitasks aitasks={aigentasks} status={aistatus} projectId={project._id} />
-                </div>
+              <div ref={aitaskcurrent}>
+                <Aitasks aitasks={aigentasks} status={aistatus} projectId={project._id} />
               </div>
             </div>
+          </div>
           {/* )} */}
         </section>
         {/* member */}

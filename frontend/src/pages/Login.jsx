@@ -81,7 +81,7 @@ const Login = () => {
                     initial={{ opacity: 0  }}
                     animate={{ opacity: 1, y: [0, 10, 0] ,rotate: [0, 6, 0] }}
                     transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
-                    className=' text-[#B6FF3B]   lg:top-45 lg:left-16 shadow-[0_0_10px_rgba(0,0,0,1)] top-3 left-5  -z-10  h-10 w-10 md:h-14 md:w-14 md:top-0 border lg:border-30 border-10   bg-transparent absolute bottom-4 rounded-xl'>
+                    className=' text-[#B6FF3B]   lg:top-45 lg:left-16 shadow-[0_0_10px_rgba(0,0,0,1)] top-3 left-5  -z-10  h-10 w-10 md:h-14 md:w-14 md:top-0  lg:border-30  border-20   bg-transparent absolute bottom-4 rounded-xl'>
                             
 
                 </motion.div>
@@ -98,7 +98,7 @@ const Login = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1, y: [0, 10, 0],rotate: [0, 6, 0]   }}
                     transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
-                    className='  text-[#B6FF3B]  lg:bottom-10 lg:right-6 shadow-[0_0_10px_rgba(0,0,0,1)] bottom-4 right-5  -z-10  h-10 w-10 border md:h-14 md:w-14 lg:border-30 border-10 rounded-xl  bg-transparent absolute '>
+                    className='  text-[#B6FF3B]  lg:bottom-10 lg:right-6 shadow-[0_0_10px_rgba(0,0,0,1)] bottom-4 right-5  -z-10  h-10 w-10 border md:h-14 md:w-14 lg:border-30 border-20 rounded-xl  bg-transparent absolute '>
 
 
                 </motion.div>
