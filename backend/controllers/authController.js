@@ -94,7 +94,7 @@ export const inviteMember =asyncHandler(async(req,res)=>{
 })
 
 export const acceptinvite =asyncHandler(async(req,res)=>{
-    const {token,name,password}=req.body
+    const {token,name,password  }=req.body
     const exist = await invitaionModel.findOne({token})
     if(!exist){
         return res.status(403).json({message:"unauthorized"})

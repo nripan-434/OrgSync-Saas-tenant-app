@@ -50,13 +50,26 @@ export const updatetask = createAsyncThunk('post/updatetask', async ({ task, tas
     console.log(task)
     console.log(taskId)
     try {
-        const res = await api.put(`/task/updatetask/${taskId}`,{task})
+        const res = await api.put(`/task/updatetask/${taskId}`, { task })
         return res.data
 
     } catch (error) {
         return rejectWithValue(error);
     }
 })
+export const taskassign = createAsyncThunk('patch/taskassign', async ({ taskId, memberId }, { rejectWithValue }) => {
+    
+    try {
+        console.log(taskId)
+        console.log(memberId)
+        const res = await api.patch(`/task/taskassign/${taskId}`, { memberId });
+        return res.data;
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+}
+);
+
 const TaskSlice = createSlice({
 
     name: 'task',
@@ -122,16 +135,31 @@ const TaskSlice = createSlice({
                 toast.error(action.payload?.message)
             })
             .addCase(updatetask.fulfilled, (state, action) => {
-                state.taskStatus = 'fulfilled';
+                state.taskStatus = 'fulfilled'
                 state.tasks = state.tasks.map(t =>
                     t._id === action.payload.task._id ? action.payload.task : t
                 );
-                toast.success(action.payload.message);
+                toast.success(action.payload.message)
             })
             .addCase(updatetask.rejected, (state, action) => {
-                state.taskStatus = 'rejected';
-                toast.error(action.payload?.message || "Update failed");
+                state.taskStatus = 'rejected'
+                toast.error(action.payload?.message )
             })
+            .addCase(taskassign.pending, (state) => {
+                state.taskStatus = 'pending'
+            })
+            .addCase(taskassign.fulfilled, (state, action) => {
+                state.taskStatus = 'fulfilled'
+                state.tasks = state.tasks.map(t =>
+                    t._id === action.payload.task._id ? action.payload.task : t
+                );
+                toast.success(action.payload.message)
+            })
+            .addCase(taskassign.rejected, (state, action) => {
+                state.taskStatus = 'rejected'
+                toast.error(action.payload?.message)
+            });
+
 
     }
 

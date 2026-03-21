@@ -176,7 +176,7 @@ Example Output:
       >
         ← Back to Projects
       </button>
-      <div className="w-full">
+      <div className="w-full text-sm sm:text-xl">
         {/* Simple Header */}
         <header className="flex justify-between items-center pb-6 mb-6 border-b">
           <div>
@@ -222,7 +222,7 @@ Example Output:
           <div className="p-4 ">
             <div className='flex gap-4 flex-col mb-8'>
               <h1 className='flex justify-between'>Tasks:   </h1>
-              <Tasklist tasks={tasks} />
+              <Tasklist tasks={tasks} members={projectmemebers} />
             </div>
             <div className='flex flex-col mt-6 gap-3'>
               {/* create a task */}

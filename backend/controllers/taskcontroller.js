@@ -1,5 +1,6 @@
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import taskModel from "../models/taskModel.js"
+import userModel from "../models/userModel.js";
 
 
 export const addnewtask =async(req,res)=>{
@@ -88,7 +89,9 @@ export const updatetask = asyncHandler(async (req, res) => {
   if (!existingTask) {
     return res.status(404).json({ message: "Task not found or unauthorized" });
   }
-
+if( existingTask.title == task.title && existingTask.description == task.description &&  existingTask.priority == task.priority &&  existingTask.status == task.status ){
+  return res.status(400).json({ message: "Task is already up to date. No changes saved." })
+}
   existingTask.title = task.title;
   existingTask.description = task.description;
   existingTask.priority = task.priority || existingTask.priority;
@@ -97,4 +100,33 @@ export const updatetask = asyncHandler(async (req, res) => {
   await existingTask.save();
 
   return res.status(200).json({ message: "Task updated successfully", task: existingTask, });
+});
+
+export const taskassign = asyncHandler(async (req, res) => {
+  const { taskId } = req.params;
+  const { memberId } = req.body;
+  const userId = req.user._id;
+
+  if (!taskId) {
+    return res.status(400).json({ message: "Task Id is required" });
+  }
+    if (!memberId) {
+    return res.status(400).json({ message: "Member Id is required" });
+  }
+  const existingTask = await taskModel.findOne({ _id: taskId, createdBy: userId });
+  if (!existingTask) {
+    return res.status(404).json({ message: "Task not found or unauthorized" });
+  }
+  const member = await userModel.findOne({_id:memberId})
+  const existingTaskmember = await userModel.findOne({_id:existingTask.assignedTo})
+  if(existingTask.assignedTo || existingTask.assignedTo==memberId){
+    return res.status(404).json({ message: `Already Assigned to ${existingTaskmember.name} ` }); 
+  }
+  existingTask.assignedTo = memberId;
+    await existingTask.save();
+
+
+  
+
+  return res.status(200).json({ message: `Task Assigned ${member.name} successfully`, task: existingTask });
 });
