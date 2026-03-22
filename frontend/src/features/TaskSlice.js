@@ -69,6 +69,17 @@ export const taskassign = createAsyncThunk('patch/taskassign', async ({ taskId, 
     }
 }
 );
+export const removetaskmember = createAsyncThunk('patch/removetaskmember', async ({ taskId }, { rejectWithValue }) => {
+    
+    try {
+        console.log(taskId)
+        const res = await api.patch(`/task/taskassign/${taskId}`);
+        return res.data;
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+}
+);
 
 const TaskSlice = createSlice({
 
@@ -150,9 +161,11 @@ const TaskSlice = createSlice({
             })
             .addCase(taskassign.fulfilled, (state, action) => {
                 state.taskStatus = 'fulfilled'
+                console.log(action.payload.task)
+
                 state.tasks = state.tasks.map(t =>
                     t._id === action.payload.task._id ? action.payload.task : t
-                );
+                )
                 toast.success(action.payload.message)
             })
             .addCase(taskassign.rejected, (state, action) => {

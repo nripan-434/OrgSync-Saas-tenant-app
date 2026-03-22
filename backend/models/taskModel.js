@@ -24,6 +24,10 @@ const taskSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    taskremoved:{
+      type:Boolean,
+      default:false
+    },
 
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,

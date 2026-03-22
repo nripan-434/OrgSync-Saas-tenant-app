@@ -52,7 +52,7 @@ export const getalltask = asyncHandler(async(req, res) => {
         return res.status(400).json({ message: 'Project Id is required in query params!' });
     }
     
-    const tasks = await taskModel.find({ projectId: projectId });
+    const tasks = await taskModel.find({ projectId: projectId }).populate('assignedTo');
 
     return res.status(200).json({ tasks });
 });
@@ -123,10 +123,8 @@ export const taskassign = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: `Already Assigned to ${existingTaskmember.name} ` }); 
   }
   existingTask.assignedTo = memberId;
+  existingTask.taskremoved = false;
     await existingTask.save();
-
-
-  
-
-  return res.status(200).json({ message: `Task Assigned ${member.name} successfully`, task: existingTask });
+  await existingTask.populate('assignedTo')
+  return res.status(200).json({ message: `Task Assigned ${member.name} successfully`, task:existingTask });
 });

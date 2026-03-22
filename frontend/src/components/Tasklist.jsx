@@ -56,7 +56,7 @@ const Tasklist = ({ tasks, members }) => {
                     <span className="text-[16px]"><span className='font-bold'>Priority:</span> {x.priority}</span>
                     <span className="text-[16px]"><span className='font-bold'>Status:</span> {x.status}</span>
                     <div className='flex  justify-between w-full gap-2 font-bold'>
-                      <button className='bg-red-600 p-1 rounded-sm text-white' onClick={() => { setIsremove(x._id) }}>remove</button>
+                      <button className='shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_2px_10px_0_rgb(0.5,0,0,2.4)] bg-red-600 p-1 rounded-sm text-white' onClick={() => { setIsremove(x._id) }}>remove</button>
                       {
                         isremove == x._id ? <div onClick={() => { setIsremove(null) }} className=' text-[#B6FF3B]  inset-0 z-999 fixed flex justify-center items-center  min-h-screen bg-black/50 backdrop-blur-md'>
                           <motion.div
@@ -75,7 +75,7 @@ const Tasklist = ({ tasks, members }) => {
                         </div> : ''
                       }
 
-                      <button className='bg-sky-800 p-1 rounded-sm text-white' onClick={() => { setIsupdate(x) }}>update</button>
+                      <button className='shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_2px_10px_0_rgb(0.5,0,0,2.4)] bg-[#0C1A2B]/90 p-1 rounded-sm text-white' onClick={() => { setIsupdate(x) }}>update</button>
                       {
                         isupdate == x ? <div onClick={() => { setIsupdate({}) }} className='fixed backdrop-blur-md flex justify-center items-center inset-0 bg-black/50'>
 
@@ -119,7 +119,14 @@ const Tasklist = ({ tasks, members }) => {
                           </motion.form>
                         </div> : ''
                       }
-                      <button className='bg-green-700 p-1 rounded-sm text-white' onClick={() => { setIsassign(x._id) }}>+assign</button>
+                      {
+                        x.assignedTo?
+                      <button className='shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_2px_10px_0_rgb(0.5,0,0,2.4)] bg-[#0C1A2B] p-1 text-sm rounded-sm text-white' >Assigned to {x.assignedTo.name}</button>
+                      :
+                      <button className='shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_2px_10px_0_rgb(0.5,0,0,2.4)] bg-[#0C1A2B] p-1 rounded-sm text-white' onClick={() => { setIsassign(x._id) }}>+assign</button>
+
+
+                      }
                       {
                         isassign ? <div onClick={() => { setIsassign(null) }} className='fixed flex justify-center items-center inset-0 bg-black/10 backdrop-blur-md '>
 
