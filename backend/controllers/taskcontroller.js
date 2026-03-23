@@ -128,3 +128,15 @@ export const taskassign = asyncHandler(async (req, res) => {
   await existingTask.populate('assignedTo')
   return res.status(200).json({ message: `Task Assigned ${member.name} successfully`, task:existingTask });
 });
+
+export const getmembertasks = asyncHandler(async(req, res) => {
+    const { projectId,userId } = req.query; 
+
+    if (!projectId) {
+        return res.status(400).json({ message: 'Project Id is required in query params!' });
+    }
+    
+    const tasks = await taskModel.find({ projectId: projectId , assignedTo:userId}).populate('assignedTo');
+
+    return res.status(200).json({ tasks });
+});

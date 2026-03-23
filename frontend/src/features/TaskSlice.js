@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 const initialState = {
     taskStatus: 'success',
     tasks: JSON.parse(localStorage.getItem('tasks')) || [],
+    membertasks:JSON.parse(localStorage.getItem('membertasks')) || [],
 
 
 }
@@ -37,7 +38,7 @@ export const getalltask = createAsyncThunk('get/getalltask', async (projectId, {
         return rejectWithValue(error);
     }
 })
-export const removetask = createAsyncThunk('get/removetask', async (taskId, { rejectWithValue }) => {
+export const removetask = createAsyncThunk('delete/removetask', async (taskId, { rejectWithValue }) => {
     try {
         console.log(taskId)
         const res = await api.delete(`/task/removetask/${taskId}`)
@@ -80,6 +81,17 @@ export const removetaskmember = createAsyncThunk('patch/removetaskmember', async
     }
 }
 );
+export const getmembertasks = createAsyncThunk('get/getmembertasks', async ({projectId,userId}, { rejectWithValue }) => {
+    try {
+        console.log(projectId)
+        console.log(userId)
+        const res = await api.get(`/task/getmembertasks?projectId=${projectId}&userId=${userId}`)
+        return res.data
+
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+})
 
 const TaskSlice = createSlice({
 
@@ -171,7 +183,20 @@ const TaskSlice = createSlice({
             .addCase(taskassign.rejected, (state, action) => {
                 state.taskStatus = 'rejected'
                 toast.error(action.payload?.message)
-            });
+            })
+            .addCase(getmembertasks.pending, (state) => {
+                state.taskStatus = 'pending'
+            })
+            .addCase(getmembertasks.fulfilled, (state, action) => {
+                state.taskStatus = 'fulfilled'
+                console.log(action.payload.tasks)
+                state.membertasks = action.payload.tasks
+              
+            })
+            .addCase(getmembertasks.rejected, (state, action) => {
+                state.taskStatus = 'rejected'
+                
+            })
 
 
     }

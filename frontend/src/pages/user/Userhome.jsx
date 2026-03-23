@@ -16,9 +16,9 @@ const Userhome = () => {
   }, [])
   return (
 
-    <div className=' overflow-y-auto min-h-[calc(100vh-160px)] flex '>
+    <div className=' overflow-y-auto text-white mt-4    min-h-[calc(100vh-160px)] flex '>
       {/* sidebar */}
-      <div className={`flex flex-col lg:flex hidden bg-gray-300 transition-all duration-500 ease-in-out ${menu ? 'flex-3  rounded-tr-md  ' : 'flex-1  rounded-tr-[40px]'}`}>
+      <div className={`flex flex-col p-4 lg:flex hidden  shadow-[inset_0_2px_4px_0_rgb(0,0,0,2.2),_0_6px_10px_5px_rgb(0,0,0,3.9)] bg-[#0C1A2B] transition-all duration-500 ease-in-out ${menu ? 'flex-3  rounded-tr-md  ' : 'flex-1  rounded-tr-[40px]'}`}>
         <Menu setMenu={setMenu} menu={menu} />
         <div className='flex flex-col border-t-5 border-white  justify-center  w-full items-center mt-5 font-bold'>
           <Link className='hover:bg-white duration-200 w-full h-18 flex items-center justify-center'>
@@ -26,7 +26,7 @@ const Userhome = () => {
               <IoIosPeople className={`text-4xl ${menu?'translate-x-0':'translate-x-5'} duration-300  shrink-0`} />
 
               <span
-                className={`whitespace-nowrap overflow-hidden transition-all duration-300
+                className={` overflow-hidden transition-all duration-300
       ${menu ? "opacity-100  translate-x-0" : "opacity-0  pointer-events-none -translate-x-9"}`}
               >
                 Members
@@ -54,7 +54,7 @@ const Userhome = () => {
               memberprjs?.map(x => {
                 return <div
 
-                  key={x._id} className=" hover:scale-104  duration-300 shadow-black hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] p-4 rounded-xl backdrop-blur-xl shadow-sm bg-white">
+                  key={x._id} className=" hover:scale-104  duration-300 shadow-black hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] p-4 rounded-xl backdrop-blur-xl shadow-sm bg-[#0C1A2B]">
                   <div className="flex justify-between mb-2">
                     <span className="text-xs uppercase font-bold text-green-600">Active</span>
                   </div>
