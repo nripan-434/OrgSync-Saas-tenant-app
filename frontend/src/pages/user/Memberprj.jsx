@@ -6,6 +6,7 @@ import Loading from '../../components/Loading';
 import { getmemberprjs } from '../../features/ProjectSlice';
 import { getmembertasks } from '../../features/TaskSlice';
 
+
 const Memberprj = () => {
   const dispatch = useDispatch()
   const { user } = useSelector(s => s.auth)
@@ -14,7 +15,9 @@ const Memberprj = () => {
   const { memberprjs } = useSelector(s => s.prj);
   const { membertasks } = useSelector(s => s.task);
   const [project, setProject] = useState(null);
-  
+  const [statusform,setStatusform]=useState({
+    status:''
+  })
   useEffect(() => {
     const currentProject = memberprjs.find(p => p._id === id);
     setProject(currentProject);
@@ -81,7 +84,7 @@ const Memberprj = () => {
               <div className='flex flex-col md:flex-row gap-4 bg-gray-800 p-4 rounded-xl'>
                   {
                  membertasks?.map(x => {
-              return <div key={x._id} className="   p-5 rounded-2xl bg-[#0f172a] text-[#B6FF3B] shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] cursor-pointer overflow-hidden">
+              return <div key={x._id} className="   p-5 rounded-2xl bg-[#0f172a] text-[#B6FF3B] shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-300 ease-in-out hover:scale-102 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]  overflow-hidden">
                 {/* Glow effect */}
                 
 
@@ -94,10 +97,25 @@ const Memberprj = () => {
                   <p className="text-sm text-gray-300 mb-4">
                     Description: {x.description}
                   </p>
-
-                  <span className="text-xs px-3 py-1 rounded-full bg-black/30 font-semibold">
+                  <div className=' flex  justify-between'>
+                    
+                   <span className="text-xs h-7 px-3 py-1 rounded-full bg-black/30 font-semibold">
                     Priority: {x.priority}
                   </span>
+                  <div className='flex justify-center items-center gap-2'>
+                    Status:
+                      <form className='hover:bg-gray-800 duration-300 bg-[#0C1A2B] hover:text-[#B6FF3B] flex gap-2 items-center pr-2 justify-center p-1  rounded-xl' action="">
+                    
+                    <select name="" id="" className='outline-0 bg-[#0C1A2B] p-1 cursor-pointer   rounded-xl'>
+                      <option value="to do">to do</option>
+                      <option value="inprogress">in progress</option>
+                      <option  value="done">completed</option>
+                    </select>
+                    <button type='submit' className='hover:text-[#0C1A2B] px-2 duration-300 rounded-md cursor-pointer   hover:bg-[#B6FF3B] font-bold'>submit</button>
+                  </form>
+                  </div>
+                    
+                  </div>
                 </div>
               </div>
 

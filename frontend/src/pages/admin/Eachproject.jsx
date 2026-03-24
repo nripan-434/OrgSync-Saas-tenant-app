@@ -337,18 +337,21 @@ Example Output:
           }
         </div>
       </div>
-      <div className={`${projectmemebers.length === 0 ? 'bg-none' : 'shadow-[0_3px_5px_rgba(0,0,0,2.1)]'} mb-10 flex gap-3 p-9 rounded-xl overflow-x-auto custom-scrollbar`}>
+      <div className={`${projectmemebers.length === 0 ? 'bg-none' : 'shadow-[0_3px_5px_rgba(0,0,0,2.1)]'} mb-10  flex gap-3 p-5  rounded-xl overflow-x-auto custom-scrollbar`}>
         {
           projectmemebers?.map(x => {
-            return <div key={x._id} className={`z-60 relative  border-2 hover:rounded-none    rounded-[25px] duration-300 hover:shadow-[5px_3px_30px_rgba(0,0,0,2.1)] w-[260px] p-4 `}>
+            return <div key={x._id} className={` relative shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)]   hover:rounded-none     rounded-[25px] duration-300 hover:shadow-[5px_3px_30px_rgba(0,0,0,2.1)] min-w-60 max-w-60 p-4 `}>
+              <div className='justify-center items-center flex'>
+              <div className='rounded-full h-16 w-16 justify-center items-center flex  font-bold text-2xl bg-[#B6FF3B] text-[#0C1A2B]'>{x.name.charAt([0]).toUpperCase()} </div>
+              </div>
               <div className='p-2 min-h-26  '>
-                <h1 className='font-bold'>Name : {x.name}</h1>
-                <h2 className='font-bold'>Email : {x.email}</h2>
+                <h1 className='font-bold'>Name : <span className='font-light'>{x.name}</span> </h1>
+                <h2 className='font-bold'>Email : <span className='font-light'>{x.email}</span></h2>
               </div>
 
               <p onClick={() => setMemtoggle(prev => ({ ...prev, [x._id]: !prev[x._id] }))} className=' ml-2 mb-3  font-bold text-blue-400 underline flex items-center gap-1 cursor-pointer '>Activein <FaArrowDown className='text-[15px]' />  </p>
               <div
-                className={`absolute shadow-[0_3px_5px_rgba(0,0,0,2.1)]  mt-2 custom-scrollbar  left-0 rounded-b-xl right-auto flex gap-2 p-3 overflow-x-auto  w-full transition-all duration-400 ${memtoggle[x._id] ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                className={`absolute shadow-[0_3px_5px_rgba(0,0,0,2.1)] mt-3 custom-scrollbar   left-0 rounded-b-xl right-auto flex gap-2 p-3 overflow-x-auto  w-full transition-all duration-400 ${memtoggle[x._id] ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
                   }`}
               >
                 {
