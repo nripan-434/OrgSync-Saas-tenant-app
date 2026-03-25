@@ -93,6 +93,17 @@ export const getmembertasks = createAsyncThunk('get/getmembertasks', async ({pro
     }
 })
 
+export const statusupdate = createAsyncThunk('patch/statusupdate', async ({ taskId,form }, { rejectWithValue }) => {
+    
+    try {
+        console.log(form)
+        const res = await api.patch(`/task/statusupdate/${taskId}`,{form});
+        return res.data;
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+})
+
 const TaskSlice = createSlice({
 
     name: 'task',
@@ -191,11 +202,24 @@ const TaskSlice = createSlice({
                 state.taskStatus = 'fulfilled'
                 console.log(action.payload.tasks)
                 state.membertasks = action.payload.tasks
-              
             })
-            .addCase(getmembertasks.rejected, (state, action) => {
+            .addCase(getmembertasks.rejected, (state) => {
                 state.taskStatus = 'rejected'
-                
+            })
+            .addCase(statusupdate.pending, (state) => {
+                state.taskStatus = 'pending'
+            })
+            .addCase(statusupdate.fulfilled, (state, action) => {
+                state.taskStatus = 'fulfilled'
+                state.membertasks = state.membertasks.map(t =>
+                    t._id === action.payload.task._id ?action.payload.task : t
+                );
+                toast.success(action.payload.message)
+            })
+            .addCase(statusupdate.rejected, (state, action) => {
+                state.taskStatus = 'rejected'
+                console.log(action.payload)
+                toast.error(action.payload?.message )
             })
 
 

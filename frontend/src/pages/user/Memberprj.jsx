@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoIosArrowBack, IoIosTime, IoIosPeople, IoIosRocket } from "react-icons/io";
 import Loading from '../../components/Loading';
 import { getmemberprjs } from '../../features/ProjectSlice';
-import { getmembertasks } from '../../features/TaskSlice';
+import { getmembertasks, statusupdate } from '../../features/TaskSlice';
 
 
 const Memberprj = () => {
@@ -14,10 +14,27 @@ const Memberprj = () => {
   const navigate = useNavigate();
   const { memberprjs } = useSelector(s => s.prj);
   const { membertasks } = useSelector(s => s.task);
+  const filteredmembertasks = [...membertasks].sort((a, b) =>
+    (a.status === 'done') - (b.status === 'done')
+  );
   const [project, setProject] = useState(null);
-  const [statusform,setStatusform]=useState({
-    status:''
+  const [statusform, setStatusform] = useState({})
+  const statushandle = (e, id) => {
+    const { value } = e.target
+    setStatusform((prev) => ({ ...prev, [id]: value }))
+    console.log(statusform)
+  }
+  const pendingtasks = filteredmembertasks.filter(x => {
+    return x.status == 'todo'
   })
+  const inprogresstasks = filteredmembertasks.filter(x => {
+    return x.status == 'in-progress'
+  })
+  const completedtasks = filteredmembertasks.filter(x => {
+    return x.status == 'done'
+  })
+  const [taskcatogory, setTaskcatogory] = useState('alltasks')
+
   useEffect(() => {
     const currentProject = memberprjs.find(p => p._id === id);
     setProject(currentProject);
@@ -28,7 +45,7 @@ const Memberprj = () => {
   useEffect(() => {
     dispatch(getmembertasks({ projectId: id, userId: user.id }))
   }, [])
-  const remainingtask = membertasks.filter(x=>{
+  const remainingtask = membertasks.filter(x => {
     return x.status != 'done'
   })
   if (!project) return (
@@ -50,7 +67,7 @@ const Memberprj = () => {
         </button>
 
         <div className="bg-[[#0C1A2B]] rounded-3xl p-6 md:p-10 shadow-[inset_0_2px_4px_0_rgb(0,0,0,2.2),_0_6px_10px_5px_rgb(0,0,0,3.9)] border-[#B6FF3B] mb-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex  justify-between items-center md:items-center gap-4">
             <div>
               <span className="bg-[#B6FF3B]  text-[#0C1A2B] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                 Project Workspace
@@ -63,68 +80,192 @@ const Memberprj = () => {
                 <p className="text-xs text-[#B6FF3B] uppercase font-bold tracking-widest">Created By</p>
                 <p className="font-medium text-[#B6FF3B]">{project.createdBy?.name || 'Admin'}</p>
               </div>
-              <div className="w-12 h-12 rounded-full  bg-[#B6FF3B] shadow-[inset_0_2px_4px_0_rgb(0,0,0,2.2),_0_6px_10px_5px_rgb(0,0,0,3.9)]   flex items-center justify-center text-[#0C1A2B] font-bold ">
+              <div className="w-12 h-12 rounded-full  bg-[#B6FF3B] shadow-[inset_0_2px_4px_0_rgb(0,0,0,1.2),_0_6px_10px_5px_rgb(0,0,0,3.9)]   flex items-center justify-center text-[#0C1A2B] font-bold ">
                 {project.createdBy?.name?.charAt(0) || 'A'}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Project Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <StatCard icon={<IoIosPeople className="text-blue-500" />} label="Team Members" value={project.members?.length || 0} />
-          <StatCard icon={<IoIosTime className="text-green-500" />} label="Status" value="Active" />
-          <StatCard icon={<IoIosRocket className="text-purple-500" />} label="Tasks" value={remainingtask.length} />
+          <StatCard icon={<IoIosPeople className="text-blue-500 " />} label="Team Members :" value={project.members?.length || 0} />
+          <StatCard icon={<IoIosTime className="text-green-500" />} label="Status :" value="Active" />
+          <StatCard icon={<IoIosRocket className="text-purple-500" />} label="Remaining Tasks :" value={remainingtask.length} />
         </div>
         {
           membertasks.length == 0 ?
-            <div className='flex justify-center m-3 text-white border'>No Task Assigned</div> :
+            <div className='flex justify-center m-3 text-[#B6FF3B] border-t-2 pt-7 '>No Task Assigned!</div> :
             <div >
               <h1 className='text-2xl text-[#B6FF3B] p-4'>Tasks:</h1>
-              <div className='flex flex-col md:flex-row gap-4 bg-gray-800 p-4 rounded-xl'>
-                  {
-                 membertasks?.map(x => {
-              return <div key={x._id} className="   p-5 rounded-2xl bg-[#0f172a] text-[#B6FF3B] shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-300 ease-in-out hover:scale-102 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]  overflow-hidden">
-                {/* Glow effect */}
-                
+              <div></div>
+              <div className='flex  flex-col overflow-x-auto custom-scrollbar justify-between  gap-4 bg-gray-800 p-4 rounded-xl'>
+                <div className='flex gap-3'>
+                  <button onClick={() => { setTaskcatogory('alltasks') }} className={`${taskcatogory == 'alltasks' ?'bg-white ' : 'text-[#B6FF3B] bg-gray-500'} font-medium  cursor-pointer duration-300 active:scale-95  rounded-sm px-2 text-medium`}>all tasks</button>
+                  <button onClick={() => { setTaskcatogory('completed') }} className={`${taskcatogory=='completed'?'bg-white  ':  'text-[#B6FF3B] bg-gray-500'} font-medium  cursor-pointer duration-300 active:scale-95  rounded-sm px-2 text-medium`}>completed tasks</button>
+                  <button onClick={() => { setTaskcatogory('pending') }} className={`${taskcatogory == 'pending' ? 'bg-white  ' : 'text-[#B6FF3B] bg-gray-500'}   font-medium  cursor-pointer  duration-300 active:scale-95  rounded-sm px-2 text-medium`}>pending tasks</button>
 
-                {/* Content */}
-                <div className="relative z-10">
-                  <h1 className="text-lg font-bold mb-2">
-                   Task: {x.title}
-                  </h1>
-
-                  <p className="text-sm text-gray-300 mb-4">
-                    Description: {x.description}
-                  </p>
-                  <div className=' flex  justify-between'>
-                    
-                   <span className="text-xs h-7 px-3 py-1 rounded-full bg-black/30 font-semibold">
-                    Priority: {x.priority}
-                  </span>
-                  <div className='flex justify-center items-center gap-2'>
-                    Status:
-                      <form className='hover:bg-gray-800 duration-300 bg-[#0C1A2B] hover:text-[#B6FF3B] flex gap-2 items-center pr-2 justify-center p-1  rounded-xl' action="">
-                    
-                    <select name="" id="" className='outline-0 bg-[#0C1A2B] p-1 cursor-pointer   rounded-xl'>
-                      <option value="to do">to do</option>
-                      <option value="inprogress">in progress</option>
-                      <option  value="done">completed</option>
-                    </select>
-                    <button type='submit' className='hover:text-[#0C1A2B] px-2 duration-300 rounded-md cursor-pointer   hover:bg-[#B6FF3B] font-bold'>submit</button>
-                  </form>
-                  </div>
-                    
-                  </div>
                 </div>
+                <div className={`${taskcatogory == 'alltasks' ? 'block' : 'hidden'} flex flex-col md:flex-row gap-4`}>
+                  {
+                    filteredmembertasks?.map(x => {
+                      return <div key={x._id} className=" min-w-120 flex justify-between items-center p-5 rounded-2xl bg-[#0f172a] text-[#B6FF3B] shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-300 ease-in-out hover:scale-102 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]  overflow-hidden">
+
+                        <div>
+                          <div className="relative z-10">
+                            <h1 className="text-lg font-bold mb-2">
+                              Task: {x.title}
+                            </h1>
+
+                            <p className="text-sm text-gray-300 mb-4">
+                              Description: {x.description}
+                            </p>
+                          </div>
+                          <div className=' flex  justify-between items-center'>
+
+                            <span className="text-xs h-7 px-3 py-1 rounded-full bg-black/30 font-semibold">
+                              Priority: {x.priority}
+                            </span>
+                            <div className='flex justify-center text-sm items-center gap-2'>
+
+                              {
+                                x.status == 'done' ? <div className='bg-[#B6FF3B] p-1 rounded-md text-[#0C1A2B] font-medium'>Completed</div> :
+                                  <div className='flex  items-center gap-1 justify-center'>
+                                    <h1 className='pl-2'> Status : </h1>
+                                    <form className='hover:bg-gray-800 duration-300 bg-[#0C1A2B] hover:text-[#B6FF3B] flex gap-2 items-center pr-2 justify-center p-1  rounded-xl' action="">
+
+                                      <select onChange={(e) => { statushandle(e, x._id) }} name='status' value={statusform[x._id] || x.status} id="" className='outline-0 bg-[#0C1A2B] p-1 cursor-pointer   rounded-xl'>
+                                        <option value="todo">to do</option>
+                                        <option value="in-progress">in progress</option>
+                                        <option value="done">completed</option>
+                                      </select>
+                                      <button type='submit' onClick={(e) => {
+                                        e.preventDefault()
+                                        console.log(statusform[x._id])
+                                        dispatch(statusupdate({ taskId: x._id, form: statusform[x._id] }))
+                                      }} className='hover:text-[#0C1A2B] px-2 duration-300 rounded-md cursor-pointer   hover:bg-[#B6FF3B] font-bold'>submit</button>
+                                    </form>
+                                  </div>
+
+                              }
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    })
+                  }
+                </div>
+                <div className={`${taskcatogory == 'pending' ? 'block ' : 'hidden'} flex flex-col md:flex-row gap-4`}>
+                  {
+                    pendingtasks?.map(x => {
+                      return <div key={x._id} className=" min-w-120 flex justify-between items-center p-5 rounded-2xl bg-[#0f172a] text-[#B6FF3B] shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-300 ease-in-out hover:scale-102 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]  overflow-hidden">
+
+                        <div>
+                          <div className="relative z-10">
+                            <h1 className="text-lg font-bold mb-2">
+                              Task: {x.title}
+                            </h1>
+
+                            <p className="text-sm text-gray-300 mb-4">
+                              Description: {x.description}
+                            </p>
+                          </div>
+                          <div className=' flex  justify-between items-center'>
+
+                            <span className="text-xs h-7 px-3 py-1 rounded-full bg-black/30 font-semibold">
+                              Priority: {x.priority}
+                            </span>
+                            <div className='flex justify-center text-sm items-center gap-2'>
+
+                              {
+                                x.status == 'done' ? <div className='bg-[#B6FF3B] p-1 rounded-md text-[#0C1A2B] font-medium'>Completed</div> :
+                                  <div className='flex  items-center gap-1 justify-center'>
+                                    <h1 className='pl-2'> Status : </h1>
+                                    <form className='hover:bg-gray-800 duration-300 bg-[#0C1A2B] hover:text-[#B6FF3B] flex gap-2 items-center pr-2 justify-center p-1  rounded-xl' action="">
+
+                                      <select onChange={(e) => { statushandle(e, x._id) }} name='status' value={statusform[x._id] || x.status} id="" className='outline-0 bg-[#0C1A2B] p-1 cursor-pointer   rounded-xl'>
+                                        <option value="todo">to do</option>
+                                        <option value="in-progress">in progress</option>
+                                        <option value="done">completed</option>
+                                      </select>
+                                      <button type='submit' onClick={(e) => {
+                                        e.preventDefault()
+                                        console.log(statusform[x._id])
+                                        dispatch(statusupdate({ taskId: x._id, form: statusform[x._id] }))
+                                      }} className='hover:text-[#0C1A2B] px-2 duration-300 rounded-md cursor-pointer   hover:bg-[#B6FF3B] font-bold'>submit</button>
+                                    </form>
+                                  </div>
+
+                              }
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    })
+                  }
+                </div>
+                <div className={`${taskcatogory == 'completed' ? 'block ' : 'hidden'} flex flex-col md:flex-row gap-4`}>
+                  {
+                    completedtasks?.map(x => {
+                      return <div key={x._id} className=" min-w-120 flex justify-between items-center p-5 rounded-2xl bg-[#0f172a] text-[#B6FF3B] shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-300 ease-in-out hover:scale-102 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]  overflow-hidden">
+
+                        <div>
+                          <div className="relative z-10">
+                            <h1 className="text-lg font-bold mb-2">
+                              Task: {x.title}
+                            </h1>
+
+                            <p className="text-sm text-gray-300 mb-4">
+                              Description: {x.description}
+                            </p>
+                          </div>
+                          <div className=' flex  justify-between items-center'>
+
+                            <span className="text-xs h-7 px-3 py-1 rounded-full bg-black/30 font-semibold">
+                              Priority: {x.priority}
+                            </span>
+                            <div className='flex justify-center text-sm items-center gap-2'>
+
+                              {
+                                x.status == 'done' ? <div className='bg-[#B6FF3B] p-1 rounded-md text-[#0C1A2B] font-medium'>Completed</div> :
+                                  <div className='flex  items-center gap-1 justify-center'>
+                                    <h1 className='pl-2'> Status : </h1>
+                                    <form className='hover:bg-gray-800 duration-300 bg-[#0C1A2B] hover:text-[#B6FF3B] flex gap-2 items-center pr-2 justify-center p-1  rounded-xl' action="">
+
+                                      <select onChange={(e) => { statushandle(e, x._id) }} name='status' value={statusform[x._id] || x.status} id="" className='outline-0 bg-[#0C1A2B] p-1 cursor-pointer   rounded-xl'>
+                                        <option value="todo">to do</option>
+                                        <option value="in-progress">in progress</option>
+                                        <option value="done">completed</option>
+                                      </select>
+                                      <button type='submit' onClick={(e) => {
+                                        e.preventDefault()
+                                        console.log(statusform[x._id])
+                                        dispatch(statusupdate({ taskId: x._id, form: statusform[x._id] }))
+                                      }} className='hover:text-[#0C1A2B] px-2 duration-300 rounded-md cursor-pointer   hover:bg-[#B6FF3B] font-bold'>submit</button>
+                                    </form>
+                                  </div>
+
+                              }
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    })
+                  }
+                </div>
+
               </div>
 
-            })
-              }
-              </div>
-              
             </div>
-           
+
         }
 
 

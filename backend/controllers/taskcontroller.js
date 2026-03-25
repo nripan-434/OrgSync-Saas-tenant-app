@@ -41,34 +41,24 @@ export const addaitask = asyncHandler(async(req,res)=>{
     }
     const restask = await taskModel.create({title:task.title,priority:task.priority ,description:task.description,projectId:projectId,createdBy:_id})
     return res.status(200).json({message:'Task added',restask})
-    
-
 })
-// 
 export const getalltask = asyncHandler(async(req, res) => {
     const { projectId } = req.query; 
 
     if (!projectId) {
         return res.status(400).json({ message: 'Project Id is required in query params!' });
     }
-    
     const tasks = await taskModel.find({ projectId: projectId }).populate('assignedTo');
-
     return res.status(200).json({ tasks });
 });
 export const removetask = async (req, res) => {
   const { taskId } = req.params
   const userId = req.user._id
-console.log(userId)
-console.log(taskId)
   const task = await taskModel.findOne({ _id:taskId,createdBy:userId})
-
   if (!task) {
     return res.status(404).json({ message: "Task not found" })
   }
-
   await task.deleteOne()
-
   return res.status(200).json({
     message: "Task deleted successfully",taskId})
 }
@@ -78,13 +68,9 @@ export const updatetask = asyncHandler(async (req, res) => {
   const { task } = req.body;
   console.log(task)
   const userId = req.user._id;
-
   if (!taskId) {
     return res.status(400).json({ message: "Task Id is required" });
   }
-
-
-
   const existingTask = await taskModel.findOne({ _id: taskId, createdBy: userId });
   if (!existingTask) {
     return res.status(404).json({ message: "Task not found or unauthorized" });
@@ -131,12 +117,24 @@ export const taskassign = asyncHandler(async (req, res) => {
 
 export const getmembertasks = asyncHandler(async(req, res) => {
     const { projectId,userId } = req.query; 
-
     if (!projectId) {
-        return res.status(400).json({ message: 'Project Id is required in query params!' });
+        return res.status(400).json({ message: 'Project Id is required in query params!' })
     }
-    
-    const tasks = await taskModel.find({ projectId: projectId , assignedTo:userId}).populate('assignedTo');
-
-    return res.status(200).json({ tasks });
+    const tasks = await taskModel.find({ projectId: projectId , assignedTo:userId}).populate('assignedTo')
+    return res.status(200).json({ tasks })
 });
+
+export const statusupdate =asyncHandler(async(req,res)=>{
+  const {taskId}=req.params
+  const {form}=req.body
+  console.log(taskId)
+  console.log(form)
+  const task = await taskModel.findOne({_id:taskId})
+  if(!task){
+    return res.status(400).json({message:'Task not Found!'})
+  }
+  task.status=form;
+  await task.save()
+  return res.status(200).json({message:'Status Updated Successfully',task})
+
+})

@@ -1,7 +1,7 @@
 import { authmiddleware } from "../middleware/auth.js";
 import { adminonly } from "../middleware/adminMiddleware.js";
 import express from 'express'
-import { addaitask,addnewtask,getalltask,removetask,updatetask,taskassign,getmembertasks } from "../controllers/taskcontroller.js";
+import { addaitask,addnewtask,getalltask,removetask,updatetask,taskassign,getmembertasks,statusupdate } from "../controllers/taskcontroller.js";
 
 const router = express.Router()
 
@@ -13,6 +13,8 @@ router.get('/getalltask',authmiddleware,adminonly,getalltask)
 router.delete('/removetask/:taskId',authmiddleware,adminonly,removetask)
 // member
 router.get('/getmembertasks',authmiddleware,getmembertasks)
+router.patch('/statusupdate/:taskId',authmiddleware,statusupdate)
+
 
 
 export default router
