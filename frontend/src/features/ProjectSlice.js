@@ -69,7 +69,7 @@ export const deallocatemember = createAsyncThunk('patch/deallocatemember', async
 export const updateProject = createAsyncThunk("put/updateProject", async ({ projectId, updatedData }, { rejectWithValue }) => {
     try {
         console.log(updatedData)
-        const res = await api.put(`/project/updateproject/${projectId}`, updatedData)
+        const res = await api.put(`/project/updateproject/${projectId}`, {updatedData})
         return res.data
     } catch (error) {
         return rejectWithValue(error)

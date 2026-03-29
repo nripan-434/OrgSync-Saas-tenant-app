@@ -150,10 +150,11 @@ export const  deallocatemember = asyncHandler(async(req,res)=>{
         project: updatedProject 
     })
 })
+
+
 export const updateProject = asyncHandler(async (req, res) => {
     const { projectId } = req.params
-    const { name, description, deadline, startDate } = req.body.updatedData
-
+    const { name, description, deadline, startDate } = req.body || {}
     if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
         return res.status(400).json({ message: "Invalid Project Id" })
     }
@@ -164,20 +165,17 @@ export const updateProject = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "Project not found" })
     }
 
-    // simple duplicate check
     if (name && name !== project.name) {
         const exist = await projectModel.findOne({
-            name,
+            name: name,
             organizationId: project.organizationId
         })
 
         if (exist) {
-            return res.status(409).json({ message: "project name already exists" })
+            return res.status(409).json({ message: "Project name already exists" })
         }
     }
-
-    // update fields (only if provided)
-    project.name = name || project.name
+       project.name = name || project.name
     project.description = description || project.description
     project.deadline = deadline || project.deadline
     project.startDate = startDate || project.startDate
@@ -185,7 +183,7 @@ export const updateProject = asyncHandler(async (req, res) => {
     const updatedProject = await project.save()
 
     return res.status(200).json({
-        message: "project updated successfully",
+        message: "Project updated successfully",
         project: {
             ...updatedProject.toObject(),
             status: getDeadlineStatus(updatedProject.deadline)
