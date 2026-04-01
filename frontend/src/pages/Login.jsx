@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react'
 
 const Login = () => {
-    const {user} = useSelector(state => state.auth)
+    const { user } = useSelector(state => state.auth)
     const [isFloating, setIsFloating] = useState(false);
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -16,15 +16,15 @@ const Login = () => {
         email: '',
         password: ''
     })
-    useEffect(()=>{
-          if (user&& user.role==='user') {
+    useEffect(() => {
+        if (user && user.role === 'user') {
             navigate('/home')
         }
-        else if (user&& user.role==='admin') {
+        else if (user && user.role === 'admin') {
             navigate('/adminhome')
         }
-        
-    },[user, navigate])
+
+    }, [user, navigate])
     const handleinput = (e) => {
         const { name, value } = e.target
         setForm((prev) => ({ ...prev, [name]: value }))
@@ -33,18 +33,19 @@ const Login = () => {
     const handlesubmit = async (e) => {
         e.preventDefault()
         const res = await dispatch(login(form))
-      
-       
+
+
 
     }
     return (
         <div className='overflow-hidden min-h-[calc(100vh-113px)]  flex flex-col lg:flex-row  '>
             {/* dynamic div */}
             <div className='flex-3  z-10 relative  flex justify-end flex-col items-center border-b-9 lg:border-b-0 lg:border-r-9 border-[#0C1A2B]'>
+                
                 {/* text */}
                 <motion.p
-                    initial={{  x: 100 }}
-                    animate={{  x: 0 }}
+                    initial={{ x: 20 }}
+                    animate={{ x: 0 }}
 
                     transition={{ duration: 0.6 }}
                     className='absolute text-[#B6FF3B] lg:right-1 lg:top-15 top-9 sm:top-20 -z-10 font-[impact] text-8xl sm:text-9xl p-2 ' >SIGN IN</motion.p>
@@ -60,11 +61,25 @@ const Login = () => {
                     onAnimationComplete={() => setIsFloating(true)}
                 />
                 {/* backgrounddiv */}
+                <div className='relative'>
+
+                </div>
+                <div className="absolute h-full w-full rounded-t-full lg:rounded-none lg:rounded-tl-[860px] -z-20 overflow-hidden">
+
+  {/* actual border */}
+  <div className="absolute inset-0 
+    border-r-6 rounded-xl border-[#B6FF3B]/80" />
+
+  {/* fake shadow only on top-left */}
+  <div className="absolute inset-0 
+    bg-[radial-gradient(circle_at_top_left,_#B6FF3B40,_transparent_60%)] 
+    blur-xl opacity-60" />
+
+</div>
+
                 <motion.div
-                    initial={{   y: 50 }}
-                    animate={{  y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className=' border-[#B6FF3B] border-8 border-b-0 border-r-0 absolute h-full w-full rounded-t-full lg:rounded-none lg:rounded-tl-[860px]  -z-20  '>
+                   
+                  >
 
 
                 </motion.div>
@@ -73,51 +88,55 @@ const Login = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1, y: [0, 10, 0], rotate: [0, 2, 0] }}
                     transition={{ opacity: 1, repeat: Infinity, duration: 2.8 }}
-                    className='text-[#B6FF3B]  lg:top-10 lg:left-22 shadow-[0_0_10px_rgba(0,0,0,1)] flex items-center justify-center top-10 left-8 -z-20 h-6  w-6 md:h-30 md:w-30 border lg:border-80 border-45    bg-transparent absolute bottom-4 rounded-xl  '>
-
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0  }}
-                    animate={{ opacity: 1, y: [0, 10, 0] ,rotate: [0, 6, 0] }}
-                    transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
-                    className=' text-[#B6FF3B]   lg:top-45 lg:left-16 shadow-[0_0_10px_rgba(0,0,0,1)] top-3 left-5  -z-10  h-10 w-10 md:h-14 md:w-14 md:top-0  lg:border-30  border-20   bg-transparent absolute bottom-4 rounded-xl'>
-                            
-
-                </motion.div>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, y: [0, 10, 0],  rotate: [0, 2, 0] }}
-                    transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
-                    className='  text-[#B6FF3B]  lg:bottom-15 lg:right-14 shadow-[0_0_10px_rgba(0,0,0,1)] bottom-10 right-8 -z-20 h-10 w-10 border lg:border-80 border-45    bg-transparent rounded-xl absolute '>
-
+                    className='md:text-[#B6FF3B] text-transparent  lg:top-10 lg:left-22 shadow-[0_0_10px_rgba(0,0,0,1)] flex items-center justify-center top-10 left-8 -z-20 h-6  w-6 md:h-30 md:w-30 border lg:border-80 border-60    bg-transparent absolute bottom-4 rounded-xl  '>
 
                 </motion.div>
 
                 <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, y: [0, 10, 0],rotate: [0, 6, 0]   }}
+                    animate={{ opacity: 1, y: [0, 10, 0], rotate: [0, 6, 0] }}
                     transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
-                    className='  text-[#B6FF3B]  lg:bottom-10 lg:right-6 shadow-[0_0_10px_rgba(0,0,0,1)] bottom-4 right-5  -z-10  h-10 w-10 border md:h-14 md:w-14 lg:border-30 border-20 rounded-xl  bg-transparent absolute '>
+                    className='md:text-[#B6FF3B]  text-transparent   lg:top-45 lg:left-16 shadow-[0_0_10px_rgba(0,0,0,1)] top-3 left-5  -z-10  h-10 w-10 md:h-14 md:w-14 md:top-0  lg:border-30  border-30   bg-transparent absolute bottom-4 rounded-xl'>
+
+
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, y: [0, 10, 0], rotate: [0, 2, 0] }}
+                    transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
+                    className='md:text-[#B6FF3B]  text-transparent  lg:bottom-15 lg:right-14 shadow-[0_0_10px_rgba(0,0,0,1)] bottom-10 right-8 -z-20 h-10 w-10 border lg:border-80 border-55    bg-transparent rounded-xl absolute '>
 
 
                 </motion.div>
 
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, y: [0, 10, 0], rotate: [0, 6, 0] }}
+                    transition={{ opacity: 1, repeat: Infinity, duration: 3.8 }}
+                    className=' md:text-[#B6FF3B] text-transparent lg:bottom-10 lg:right-6 shadow-[0_0_10px_rgba(0,0,0,1)] bottom-4 right-5  -z-10  h-10 w-10 border md:h-14 md:w-14 lg:border-30 border-30 rounded-xl  bg-transparent absolute '>
+
+
+                </motion.div>
+            
             </div>
-{/* signin */}
-            <div className=' z-20 flex-3'>
+            {/* signin */}
+            <div className="z-20 flex-3 relative ">
+
+                <div className="absolute top-0 left-0 w-full h-[2px] 
+bg-gradient-to-r from-transparent via-[#B6FF3B] to-transparent 
+opacity-60 blur-[1px]" />
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className='flex-3  h-full p-10 pt-15 flex justify-center items-center  '>   
-{/* green 0C1A2B */}
+                    className='flex-3  h-full p-10 pt-15 flex justify-center items-center  '>
+                    {/* green 0C1A2B */}
 
                     <motion.form
-                        initial={{  y: 50 }}
-                        animate={{  y: 0 }}
+                        initial={{ y: 50 }}
+                        animate={{ y: 0 }}
                         transition={{ duration: 1 }}
-                        action="" onSubmit={handlesubmit} className='border-white/20 border-7 bg-[#0C1A2B]   text-white shadow-xl p-10 w-100 rounded-md flex flex-col gap-3 items-center justify-center  '>
+                        action="" onSubmit={handlesubmit} className='border-[#B6FF3B]/40 border-7 bg-[#0C1A2B]   text-white shadow-xl p-10 w-100 rounded-md flex flex-col gap-3 items-center justify-center  '>
                         <motion.div
                             initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -147,11 +166,12 @@ const Login = () => {
                         </motion.div>
                     </motion.form>
                 </motion.div>
-
-
             </div>
 
         </div>
+
+
+
     )
 }
 
