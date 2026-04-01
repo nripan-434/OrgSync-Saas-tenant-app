@@ -40,14 +40,14 @@ const Login = () => {
     return (
         <div className='overflow-hidden min-h-[calc(100vh-113px)]  flex flex-col lg:flex-row  '>
             {/* dynamic div */}
-            <div className='flex-3 z-10 relative  flex justify-end flex-col items-center border-b-9 lg:border-b-0 lg:border-r-9 border-[#0C1A2B]'>
+            <div className='flex-3  z-10 relative  flex justify-end flex-col items-center border-b-9 lg:border-b-0 lg:border-r-9 border-[#0C1A2B]'>
                 {/* text */}
                 <motion.p
                     initial={{  x: 100 }}
                     animate={{  x: 0 }}
 
                     transition={{ duration: 0.6 }}
-                    className='absolute text-[#0C1A2B] lg:right-1 lg:top-15 top-9 sm:top-20 -z-10 font-[impact] text-8xl sm:text-9xl p-2 ' >SIGN IN</motion.p>
+                    className='absolute text-[#B6FF3B] lg:right-1 lg:top-15 top-9 sm:top-20 -z-10 font-[impact] text-8xl sm:text-9xl p-2 ' >SIGN IN</motion.p>
                 {/* image */}
                 <motion.img
                     src={peopimg}
@@ -64,7 +64,7 @@ const Login = () => {
                     initial={{   y: 50 }}
                     animate={{  y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className='bg-[#B6FF3B]  absolute h-full w-full rounded-t-full lg:rounded-none lg:rounded-tl-[860px]  -z-20  '>
+                    className=' border-[#B6FF3B] border-8 border-b-0 border-r-0 absolute h-full w-full rounded-t-full lg:rounded-none lg:rounded-tl-[860px]  -z-20  '>
 
 
                 </motion.div>
@@ -110,14 +110,14 @@ const Login = () => {
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className='flex-3 h-full p-10 pt-15 flex justify-center items-center bg-[#B6FF3B] '>   
+                    className='flex-3  h-full p-10 pt-15 flex justify-center items-center  '>   
 {/* green 0C1A2B */}
 
                     <motion.form
                         initial={{  y: 50 }}
                         animate={{  y: 0 }}
                         transition={{ duration: 1 }}
-                        action="" onSubmit={handlesubmit} className='bg-[#0C1A2B]   text-white shadow-xl p-10 w-100 rounded-md flex flex-col gap-3 items-center justify-center  '>
+                        action="" onSubmit={handlesubmit} className='border-white/20 border-7 bg-[#0C1A2B]   text-white shadow-xl p-10 w-100 rounded-md flex flex-col gap-3 items-center justify-center  '>
                         <motion.div
                             initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
