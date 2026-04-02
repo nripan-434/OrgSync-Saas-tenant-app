@@ -163,8 +163,10 @@ Example Output:
   })
   const handledata = (e) => {
     const { name, value } = e.target
-    setTask((prev) => ({ ...prev, [name]: value }))
-    console.log(task)
+   setTask((prev) => {
+  const updated = { ...prev, [name]: value }
+  return updated
+})
 
 
   }
@@ -175,7 +177,8 @@ Example Output:
     setTask({
       title: '',
       description: '',
-      priority: 'medium'
+      priority: 'medium',
+      dueDate:''
     })
   }
 
@@ -453,7 +456,7 @@ Example Output:
           } mb-10 flex items-start gap-3 p-5 rounded-xl overflow-x-auto custom-scrollbar`}
       >
         {projectmemebers?.map((x) => {
-          return (
+          return ( 
             <div
               key={x._id}
               className="shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)] hover:rounded-none rounded-[25px] duration-300 hover:shadow-[5px_3px_30px_rgba(0,0,0,2.1)] min-w-60 max-w-60 p-4 flex flex-col"

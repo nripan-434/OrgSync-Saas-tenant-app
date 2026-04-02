@@ -8,7 +8,7 @@ export const addnewtask = async (req, res) => {
 
   const { task, projectId } = req.body
 
-  if (!task.title || !task.description) {
+  if (!task.title || !task.description || !task.dueDate) {
     return res.status(400).json({ message: "Please fill in all required fields" })
   }
   const userId = req.user._id;
@@ -17,7 +17,7 @@ export const addnewtask = async (req, res) => {
     return res.status(409).json({ message: "task already exist" })
   }
   const task1 = await taskModel.create({
-    title: task.title, description: task.description, priority: task.priority, createdBy: userId, projectId: projectId
+    title: task.title, description: task.description, priority: task.priority,dueDate: task.dueDate ? new Date(task.dueDate) : null, createdBy: userId, projectId: projectId
   })
   const progress = await calculateProjectProgress(projectId)
   await projectModel.findByIdAndUpdate(projectId, { progress })

@@ -68,7 +68,7 @@ const Login = () => {
 
   {/* actual border */}
   <div className="absolute inset-0 
-    border-r-6 rounded-xl border-[#B6FF3B]/80" />
+    border-r-6 rounded-2xl border-[#B6FF3B]/80" />
 
   {/* fake shadow only on top-left */}
   <div className="absolute inset-0 
@@ -122,7 +122,7 @@ const Login = () => {
             {/* signin */}
             <div className="z-20 flex-3 relative ">
 
-                <div className="absolute top-0 left-0 w-full h-[2px] 
+                <div className="absolute lg:hidden top-0 left-0 w-full h-[2px] 
 bg-gradient-to-r from-transparent via-[#B6FF3B] to-transparent 
 opacity-60 blur-[1px]" />
                 <motion.div

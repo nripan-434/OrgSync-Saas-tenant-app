@@ -122,6 +122,9 @@ const Memberprj = () => {
                               <p className="text-sm text-gray-300  mb-4">
                                 Description: {x.description}
                               </p>
+                              <p className="text-sm text-gray-300  mb-4">
+                                DeadLine: {new Date(x.dueDate).toLocaleDateString()}
+                              </p>
                             </div>
                             <div className=' flex   justify-between items-center'>
 

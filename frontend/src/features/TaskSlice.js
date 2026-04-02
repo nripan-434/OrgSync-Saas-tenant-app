@@ -151,6 +151,7 @@ const TaskSlice = createSlice({
                 state.taskStatus = 'fulfilled'
                 toast.success(action.payload.message)
                 state.tasks.push(action.payload.task)
+                console.log(action.payload.task)
 
             })
             .addCase(addnewtask.rejected, (state, action) => {
