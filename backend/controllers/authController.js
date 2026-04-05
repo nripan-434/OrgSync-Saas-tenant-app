@@ -81,7 +81,7 @@ export const inviteMember =asyncHandler(async(req,res)=>{
     await invitaionModel.findOneAndUpdate(
        {email:email.toLowerCase()},{role:role||'user',token,organizationId:orgId,expiration}
     ,{upsert:true,new:true})
-    const invitelink=`http://localhost:5173/acceptinvite?token=${token}`
+    const invitelink=`org-sync-saas-tenant-app.vercel.app/acceptinvite?token=${token}`
 
     await sendEmail({
         to:email,
@@ -94,7 +94,7 @@ export const inviteMember =asyncHandler(async(req,res)=>{
 })
 
 export const acceptinvite =asyncHandler(async(req,res)=>{
-    const {token,name,password  }=req.body
+    const { token,name,password  }=req.body
     const exist = await invitaionModel.findOne({token})
     if(!exist){
         return res.status(403).json({message:"unauthorized"})

@@ -80,7 +80,7 @@ export const removetask = async (req, res) => {
 export const updatetask = asyncHandler(async (req, res) => {
   const { taskId } = req.params;
   const { task } = req.body;
-  console.log("latest"+task.dueDate)
+  // console.log("latest"+task.dueDate)
   const userId = req.user._id;
   if (!taskId) {
     return res.status(400).json({ message: "Task Id is required" })
