@@ -198,6 +198,7 @@ Example Output:
           <div>
             <h1 className="text-3xl font-bold">{project.name}</h1>
             <p className="">Project Reference: {project._id}</p>
+            <p className="">Created Date: {new Date(project.startDate).toLocaleDateString()}</p>
           </div>
           <div className="flex gap-2">
             <button onClick={() => setEditOpen(true)} className="px-4 py-2 border bg-[#B6FF3B] text-[#0C1A2B] rounded-full text-sm">Edit</button>
@@ -274,7 +275,7 @@ Example Output:
                 </div>
               )
             }
-            <button className="px-4 py-2  bg-red-600 rounded-full text-white text-sm">Delete</button>
+            {/* <button className="px-4 py-2  bg-red-600 rounded-full text-white text-sm">Delete</button>  */}
           </div>
         </header>
         {/* Deadline & Progress Row */}
@@ -436,11 +437,16 @@ Example Output:
             invitebox ?
 
               members?.map(x => {
-                return <div className='  bg-[#0C1A2B] text-[#B6FF3B] pt-3 hover:shadow-[0_3px_5px_rgba(0,0,0,2.1)] items-center duration-300 hover:scale-105 flex flex-col  rounded-xl p-5  overflow-y-auto no-scrollbar w-50' key={x._id} onClick={() => { handleAssigmMember(x._id, project._id) }}>
-                  <img src="https://images.pexels.com/photos/31162437/pexels-photo-31162437.jpeg" className=' h-18 w-18 object-cover rounded-full' alt="" />
-                  <div>
-                    <h1>{x.name}</h1>
-                    <h1>status:</h1>
+                return <div className='  bg-[#0C1A2B] text-[#B6FF3B] pt-3 hover:shadow-[0_3px_5px_rgba(0,0,0,2.1)] justify-center  items-center duration-300 hover:scale-105 flex flex-col  rounded-xl p-5  overflow-y-auto no-scrollbar w-50' key={x._id} onClick={() => { handleAssigmMember(x._id, project._id) }}>
+                  <div className='flex flex-col items-center justify-center'>
+                    <div className="rounded-full h-16 w-16 flex justify-center items-center font-bold text-2xl bg-[#B6FF3B] text-[#0C1A2B]">
+                  {x.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                    <h1 className=''>Name:{x.name}</h1>
+
+                </div>
+                    
                   </div>
 
                 </div>

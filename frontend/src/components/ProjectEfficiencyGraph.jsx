@@ -1,4 +1,3 @@
-// ProjectEfficiencyGraph.jsx
 import React from "react";
 import {
   LineChart,
@@ -10,31 +9,47 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Example data: duration in days
-const projectDurations = [
-  { project: "E-commerce", duration: 5 },
-  { project: "Portfolio", duration: 12 },
-  { project: "CRM", duration: 3 },
-  { project: "Analytics", duration: 8 },
-];
+export default function ProjectEfficiencyGraph({ projects = [] }) {
 
-// Transform: shorter duration = higher efficiency
-const data = projectDurations.map((p) => ({
-  project: p.project,
-  efficiency: Math.round(100 / p.duration), // inverse of duration
-}));
+  const data = projects.map((p) => {
+    const deadline = new Date(p.deadline);
+    const today = new Date();
 
-export default function ProjectEfficiencyGraph() {
+    const diffDays = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+
+    let efficiency;
+
+    if (p.status === "completed") {
+      efficiency = 100;
+    } else if (p.status === "overdue") {
+      efficiency = 10;
+    } else {
+      // active → based on remaining days
+      efficiency = Math.max(20, Math.min(100, diffDays * 5));
+    }
+
+    return {
+      project: p.name,
+      efficiency,
+    };
+  });
+
   return (
-    <div className="p-10   bg-[#0C1A2B] shadow-xl text-[#B6FF3B] rounded-xl" style={{ width: "100%", height: "100%" }}>
-      <h3>Project Completion Efficiency</h3>
-      <ResponsiveContainer>
-        <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="project" />
-          <YAxis />
+    <div className="p-6 bg-[#0C1A2B] text-[#B6FF3B] rounded-xl h-full">
+      <h3 className="mb-4 font-semibold">Project Efficiency</h3>
+
+      <ResponsiveContainer width="100%" height="90%">
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+          <XAxis dataKey="project" stroke="#B6FF3B" />
+          <YAxis stroke="#B6FF3B" />
           <Tooltip />
-          <Line type="monotone" dataKey="efficiency" stroke="#82ca9d" strokeWidth={2} />
+          <Line
+            type="monotone"
+            dataKey="efficiency"
+            stroke="#B6FF3B"
+            strokeWidth={2}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
