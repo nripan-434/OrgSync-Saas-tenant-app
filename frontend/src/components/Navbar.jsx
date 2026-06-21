@@ -54,11 +54,13 @@ const Navbar = () => {
       className={`${menu ? 'pointer-events-auto' : 'pointer-events-none'} absolute rounded-xl md:hidden  bg-[#0C1A2B] shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.2),_0_6px_10px_0_rgb(0,0,0,0.9)] p-5  top-20 right-0`}>
        
            {
-        user?.role==='user'?<div className='flex flex-col'>
+        user?.role==='user'?<div className='flex flex-col gap-3'>
+            <Link to={'/chat'}>Chat</Link>
             <Link onClick={()=>{dispatch(logout())}}>logout</Link>
 
         </div> :user?.role==='admin'?<div className='flex flex-col gap-3'>
 
+          <Link to={'/chat'}>Chat</Link>
           <Link  to={'/members'}>Members</Link>
 
        
@@ -78,11 +80,13 @@ const Navbar = () => {
      
     <div className='hidden md:flex'>
         {
-        user?.role==='user'?<div>
+        user?.role==='user'?<div className='flex gap-3'>
+            <Link to={'/chat'}>Chat</Link>
             <Link onClick={()=>{dispatch(logout())}}>logout</Link>
 
         </div> :user?.role==='admin'?<div className='flex  gap-3'>
 
+          <Link to={'/chat'}>Chat</Link>
           <Link  to={'/members'}>Members</Link>
 
        

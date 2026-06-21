@@ -13,6 +13,7 @@ import Eachproject from './pages/admin/Eachproject'
 import MemberRegister from './pages/user/MemberRegister'
 import Members from './pages/admin/Members'
 import Memberprj from './pages/user/Memberprj'
+import ChatPage from './pages/ChatPage'
 const App = () => {
   return (
     <div className='flex flex-col bg-[#0C1A2B] min-h-screen '>
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='/project/:id' element={<ProtectedRoutes role='admin'><Eachproject/></ProtectedRoutes>}/>
         <Route path='/acceptinvite' element={<MemberRegister/>}/>
         <Route path='/members' element={<Members/>}/>
+        <Route path='/chat' element={<ProtectedRoutes><ChatPage/></ProtectedRoutes>}/>
 
       </Routes>
       </div>
@@ -38,5 +40,6 @@ const App = () => {
     </div>
   )
 }
+
 
 export default App

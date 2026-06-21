@@ -3,7 +3,7 @@ import Menu from '../../components/Menu'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getmemberprjs } from '../../features/ProjectSlice'
-import { IoIosPeople } from "react-icons/io";
+import { IoIosPeople, IoIosChatbubbles } from "react-icons/io";
 import Loading from "../../components/Loading"
 import { getAllMembers } from '../../features/AuthSlice'
 
@@ -29,7 +29,7 @@ const Userhome = () => {
         <div className='ml-2'>
           <Menu setMenu={setMenu} menu={menu} />
         </div>
-        <div  className='flex flex-col   justify-center  w-full items-center mt-5 font-bold'>
+        <div  className='flex flex-col   justify-center  w-full items-center mt-5 font-bold gap-1'>
           <Link to={'/members'}
                className='hover:bg-[#B6FF3B] duration-200 w-full h-15 flex items-center justify-center'>
             <div className='flex  text-[#B6FF3B] hover:text-[#0C1A2B] items-center justify-center  gap-3'>
@@ -43,8 +43,22 @@ const Userhome = () => {
               </span>
             </div>
           </Link>
+          <Link to={'/chat'}
+               className='hover:bg-[#B6FF3B] duration-200 w-full h-15 flex items-center justify-center'>
+            <div className='flex  text-[#B6FF3B] hover:text-[#0C1A2B] items-center justify-center  gap-3'>
+              <IoIosChatbubbles className={`text-4xl ${menu ? 'translate-x-0' : 'translate-x-5'} duration-300  shrink-0`} />
+
+              <span 
+                className={` overflow-hidden transition-all duration-300
+      ${menu ? "opacity-100  translate-x-0" : "opacity-0  pointer-events-none -translate-x-9"}`}
+              >
+                Chat
+              </span>
+            </div>
+          </Link>
         </div>
       </div>
+
       {/* section */}
       <div className=' flex-5 md:flex-15  flex flex-col'>
 

@@ -46,8 +46,9 @@ const Orgadmin = () => {
           transition={{ duration: 0.5 }}
         className='   flex w-64 bg-[#0C1A2B] flex-col pt-11 border-t-2 shadow-[inset_0_2px_4px_0_rgb(0,0,0,2.2),_0_6px_10px_5px_rgb(0,0,0,3.9)] border-b-2 border-[#B6FF3B] rounded-br-[20px] rounded-tr-[30px] overflow-hidden ' >
         <h1 className=' pl-4 font-bold text-2xl text-[#B6FF3B]'>DASHBOARD</h1>
-        <div className='pt-6 '>
+        <div className='pt-6 flex flex-col gap-1'>
           <Link to={'/members'} className='hidden  lg:flex hover:bg-[#B6FF3B] p-4  hover:text-black text-[#B6FF3B]  duration-300 font-[bold] '>Members</Link>
+          <Link to={'/chat'} className='hidden  lg:flex hover:bg-[#B6FF3B] p-4  hover:text-black text-[#B6FF3B]  duration-300 font-[bold] '>Chat</Link>
         </div>
       </motion.div>:''
 }

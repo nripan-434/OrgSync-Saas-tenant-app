@@ -5,7 +5,7 @@ dotenv.config();
 export const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-       family: 4
+      
     console.log("DB Connected");
     console.log("Database Name:", mongoose.connection.db.databaseName);
     console.log("Host:", mongoose.connection.host);

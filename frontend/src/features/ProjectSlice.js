@@ -187,3 +187,18 @@ export const ProjectSlice = createSlice({
 })
 // export const {} ProjectSlice.actions deallocatemember
 export default ProjectSlice.reducer
+
+
+
+
+// import { createContext } from 'react';
+ 
+
+// const themeContext = createContext();
+// export const themeprovider=({chldren})=>{
+
+
+//    return( <themeContext.Provider>
+//        {shildren} 
+//     </themeContext.Provider>)
+// }
